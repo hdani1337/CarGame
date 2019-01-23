@@ -1,9 +1,15 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -14,14 +20,19 @@ import com.mygdx.game.MyBaseClasses.Scene2D.MyStage;
 import com.mygdx.game.MyBaseClasses.Scene2D.OneSpriteActor;
 import com.mygdx.game.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
+import java.awt.event.KeyEvent;
+
+import static com.badlogic.gdx.scenes.scene2d.InputEvent.Type.keyDown;
+
 public class GameScreen extends MyScreen {
 
+	OneSpriteStaticActor myCar;
+	OneSpriteStaticActor enemyCar;
 
 
+	MyStage stage = new MyStage(new ExtendViewport(160,160), spriteBatch, game ) {
 
-	MyStage stage = new MyStage(new ExtendViewport(128,128), spriteBatch, game ) {
-		OneSpriteStaticActor myCar;
-		OneSpriteStaticActor enemyCar;
+		int sav;
 
 
 		@Override
@@ -38,17 +49,36 @@ public class GameScreen extends MyScreen {
 				@Override
 				public void act(float delta) {
 					super.act(delta);
-					setY(getY() - delta * 30);
+					setY(getY() - delta * 75);
+					if(enemyCar.getY() + enemyCar.getHeight() < 0){
+						sav = (int)(Math.random() * 4 + 1);
+						if(sav == 1){
+							enemyCar.setX(30);
+						}
+
+						if(sav == 2){
+							enemyCar.setX(60);
+						}
+
+						if(sav == 3){
+							enemyCar.setX(90);
+						}
+
+						if(sav == 4){
+							enemyCar.setX(120);
+						}
+						setY(stage.getHeight());
+					}
+
+					if(overlaps(myCar,enemyCar) == true){
+						setCameraZoomSpeed(1);
+						setCameraZoomXY(myCar.getX(),myCar.getY(),(float)0.7);
+					}
 				}
 			};
 
-
-			if(enemyCar.getY() < 0){
-				enemyCar.setPosition(40,getHeight());
-			}
-
 			myCar.setSize(10,24);
-			myCar.addBaseCollisionCircleShape();
+			myCar.addBaseCollisionRectangleShape();
 			enemyCar.addBaseCollisionRectangleShape();
 			enemyCar.setSize(10,19);
 			enemyCar.setPosition(40,getHeight());
@@ -76,6 +106,12 @@ public class GameScreen extends MyScreen {
 	@Override
 	public void render(float delta) {
 		super.render(delta);
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+			myCar.setX(myCar.getX() - (float)1.8);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+			myCar.setX(myCar.getX() + (float)1.8);
+		}
 		stage.act(delta);
 		stage.draw();
 	}
