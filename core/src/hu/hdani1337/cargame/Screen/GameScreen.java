@@ -1,29 +1,15 @@
-package com.mygdx.game;
+package hu.hdani1337.cargame.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.mygdx.game.MyBaseClasses.Assets;
-import com.mygdx.game.MyBaseClasses.Scene2D.MyActor;
-import com.mygdx.game.MyBaseClasses.Scene2D.MyScreen;
-import com.mygdx.game.MyBaseClasses.Scene2D.MyStage;
-import com.mygdx.game.MyBaseClasses.Scene2D.OneSpriteActor;
-import com.mygdx.game.MyBaseClasses.Scene2D.OneSpriteStaticActor;
-import com.mygdx.game.Screen.CrashScreen;
-
-import java.awt.event.KeyEvent;
-
-import static com.badlogic.gdx.scenes.scene2d.InputEvent.Type.keyDown;
+import hu.hdani1337.cargame.MyBaseClasses.Assets;
+import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
+import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
+import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.hdani1337.cargame.CarGame;
 
 public class GameScreen extends MyScreen {
 
@@ -33,7 +19,8 @@ public class GameScreen extends MyScreen {
 
 	int pontszam;
 
-
+	Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
+	Sound crash = Assets.manager.get(Assets.CRASH_SOUND);
 
 	MyStage stage = new MyStage(new ExtendViewport(1280,720), spriteBatch, game ) {
 
@@ -51,7 +38,7 @@ public class GameScreen extends MyScreen {
 					super.act(delta);
 					setX(getX() +  Gdx.input.getAccelerometerY() * 3);
 					if(myCar.getX()<=169 || myCar.getX()>=1070){
-						game.setScreen(new CrashScreen(game));
+						game.setScreen(new CrashScreen(game, myCar.getX(),enemyCar.getX(),enemyCar.getY()));
 					}
 				}
 			};
@@ -84,7 +71,9 @@ public class GameScreen extends MyScreen {
 					}
 
 					if(overlaps(myCar,enemyCar) == true){
-						game.setScreen(new CrashScreen(game));
+						bgMusic.stop();
+						crash.play();
+						game.setScreen(new CrashScreen(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
 					}
 				}
 			};
@@ -93,6 +82,9 @@ public class GameScreen extends MyScreen {
 				@Override
 				public void act(float delta) {
 					super.act(delta);
+					bgMusic.setLooping(true);
+					bgMusic.setVolume(0.4f);
+					bgMusic.play();
 				}
 			};
 
@@ -112,11 +104,12 @@ public class GameScreen extends MyScreen {
 	};
 
 
-	public GameScreen(MyGdxGame game) {
+	public GameScreen(CarGame game) {
 		super(game);
 	}
 
-	@Override
+
+    @Override
 	public void init() {
 
 	}
@@ -135,7 +128,6 @@ public class GameScreen extends MyScreen {
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			myCar.setX(myCar.getX() + 6);
 		}
-		System.out.println("Pontszám: " + pontszam);
 		stage.act(delta);
 		stage.draw();
 	}
