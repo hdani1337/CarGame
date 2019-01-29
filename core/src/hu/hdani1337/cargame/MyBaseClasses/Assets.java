@@ -23,6 +23,9 @@ public class Assets {
     public static final AssetDescriptor<Music> HOME_ZENE = new AssetDescriptor<Music>("snd/ballblazer.mp3", Music.class);
     public static final AssetDescriptor<Music> GAME_ZENE = new AssetDescriptor<Music>("snd/kirby.mp3", Music.class);
     public static final AssetDescriptor<Sound> CRASH_SOUND = new AssetDescriptor<Sound>("snd/crash.wav", Sound.class);
+    public static final AssetDescriptor<Texture> EASY_TEXTURE = new AssetDescriptor<Texture>("actors/diff/easy.png", Texture.class);
+    public static final AssetDescriptor<Texture> MED_TEXTURE = new AssetDescriptor<Texture>("actors/diff/medium.png", Texture.class);
+    public static final AssetDescriptor<Texture> HARD_TEXTURE = new AssetDescriptor<Texture>("actors/diff/hard.png", Texture.class);
     public static void prepare() {
         manager = new AssetManager();
         Texture.setAssetManager(manager);
@@ -39,6 +42,9 @@ public class Assets {
         manager.load(HOME_ZENE);
         manager.load(GAME_ZENE);
         manager.load(CRASH_SOUND);
+        manager.load(EASY_TEXTURE);
+        manager.load(MED_TEXTURE);
+        manager.load(HARD_TEXTURE);
     }
 
     public static void unload() {

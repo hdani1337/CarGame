@@ -17,6 +17,8 @@ public class GameScreen extends MyScreen {
 	OneSpriteStaticActor enemyCar;
 	OneSpriteStaticActor background;
 
+	public static int nehezseg;
+	public static int nehezsegNov;
 	int pontszam;
 
 	Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
@@ -25,12 +27,12 @@ public class GameScreen extends MyScreen {
 	MyStage stage = new MyStage(new ExtendViewport(1280,720), spriteBatch, game ) {
 
 		int sav;
-		int nehezseg;
+		int speed;
 
 		@Override
 		public void init() {
 			pontszam = 0;
-			nehezseg = 250;
+			speed = nehezseg;
 
 			myCar = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR_TEXTURE)){
 				@Override
@@ -47,7 +49,7 @@ public class GameScreen extends MyScreen {
 				@Override
 				public void act(float delta) {
 					super.act(delta);
-					setY(getY() - delta * nehezseg);
+					setY(getY() - delta * speed);
 					if(enemyCar.getY() + enemyCar.getHeight() < 0){
 						sav = (int)(Math.random() * 4 + 1);
 						if(sav == 1){
@@ -67,7 +69,7 @@ public class GameScreen extends MyScreen {
 						}
 						setY(stage.getHeight());
 						pontszam++;
-						nehezseg += 12;
+						speed += nehezsegNov;
 					}
 
 					if(overlaps(myCar,enemyCar) == true){
@@ -91,11 +93,14 @@ public class GameScreen extends MyScreen {
 			myCar.setSize(50,120);
 			myCar.addBaseCollisionRectangleShape();
 			myCar.setPosition(615,5);
+
 			enemyCar.addBaseCollisionRectangleShape();
 			enemyCar.setSize(50,95);
 			enemyCar.setPosition(500,getHeight());
+
 			background.setSize(1280,720);
 			background.setPosition(0,0);
+
 			addActor(background);
 			addActor(myCar);
 			addActor(enemyCar);
@@ -103,13 +108,12 @@ public class GameScreen extends MyScreen {
 
 	};
 
-
 	public GameScreen(CarGame game) {
 		super(game);
 	}
 
 
-    @Override
+	@Override
 	public void init() {
 
 	}

@@ -30,8 +30,7 @@ public class HomeScreen extends MyScreen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    bgMusic.stop();
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new DifficultyScreen(game));
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
@@ -49,8 +48,10 @@ public class HomeScreen extends MyScreen {
 
             background.setSize(1280,720);
             background.setPosition(0,0);
-            addActor(background);
+
             startBTN.setPosition(485,75);
+
+            addActor(background);
             addActor(startBTN);
         }
     };

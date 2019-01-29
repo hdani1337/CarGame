@@ -41,9 +41,12 @@ public class CrashScreen extends MyScreen {
 
             backgroundLost.setSize(1280,720);
             backgroundLost.setPosition(0,0);
+
             mycar.setPosition(myX, 5);
             enemy.setPosition(eX,eY);
-            System.out.println(myX + " " + eX + " " + eY);
+
+            System.out.println("MyCar X: " + myX + " Enemy X és Y: " + eX + ", " + eY);
+
             addActor(backgroundLost);
             addActor(enemy);
             addActor(mycar);
