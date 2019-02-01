@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import hu.hdani1337.cargame.MyBaseClasses.Assets;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
@@ -16,10 +18,12 @@ public class GameScreen extends MyScreen {
 	OneSpriteStaticActor myCar;
 	OneSpriteStaticActor enemyCar;
 	OneSpriteStaticActor background;
+	OneSpriteStaticActor background2;
+	OneSpriteStaticActor pause;
 
 	public static int nehezseg;
 	public static int nehezsegNov;
-	int pontszam;
+	public static int pontszam;
 
 	Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
 	Sound crash = Assets.manager.get(Assets.CRASH_SOUND);
@@ -31,15 +35,29 @@ public class GameScreen extends MyScreen {
 
 		@Override
 		public void init() {
-			pontszam = 0;
 			speed = nehezseg;
+
+			pause = new OneSpriteStaticActor(Assets.manager.get(Assets.PAUSE_TEXTURE));
+			pause.addListener(new ClickListener(){
+				public void clicked(InputEvent event, float x, float y) {
+					super.clicked(event, x, y);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					bgMusic.pause();
+					game.setScreen(new PauseScreen(game));
+					return super.touchDown(event, x, y, pointer, button);
+				}
+			});
 
 			myCar = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR_TEXTURE)){
 				@Override
 				public void act(float delta){
 					super.act(delta);
 					setX(getX() +  Gdx.input.getAccelerometerY() * 3);
-					if(myCar.getX()<=169 || myCar.getX()>=1070){
+					if(myCar.getX()<=169 || myCar.getX()>=1070){//Korlátnak ütközés
+						pontszam = 0;
 						game.setScreen(new CrashScreen(game, myCar.getX(),enemyCar.getX(),enemyCar.getY()));
 					}
 				}
@@ -50,7 +68,7 @@ public class GameScreen extends MyScreen {
 				public void act(float delta) {
 					super.act(delta);
 					setY(getY() - delta * speed);
-					if(enemyCar.getY() + enemyCar.getHeight() < 0){
+					if(enemyCar.getY() + enemyCar.getHeight() < 0){//Sávválasztás
 						sav = (int)(Math.random() * 4 + 1);
 						if(sav == 1){
 							enemyCar.setX(300);
@@ -69,12 +87,14 @@ public class GameScreen extends MyScreen {
 						}
 						setY(stage.getHeight());
 						pontszam++;
-						speed += nehezsegNov;
+						speed += nehezsegNov;//Sebességnövelés
+						System.out.println(pontszam);
 					}
 
-					if(overlaps(myCar,enemyCar) == true){
+					if(overlaps(myCar,enemyCar) == true){//Ütközés az ellenféllel
 						bgMusic.stop();
 						crash.play();
+						pontszam = 0;
 						game.setScreen(new CrashScreen(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
 					}
 				}
@@ -84,9 +104,26 @@ public class GameScreen extends MyScreen {
 				@Override
 				public void act(float delta) {
 					super.act(delta);
+					background.setY(getY() - delta * speed);
 					bgMusic.setLooping(true);
 					bgMusic.setVolume(0.4f);
 					bgMusic.play();
+
+					if(background.getY() + 720 < 0){
+						background.setY(720);
+					}
+				}
+			};
+
+			background2 = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
+				@Override
+				public void act(float delta) {
+					super.act(delta);
+					background2.setY(getY() - delta * speed);
+
+					if(background2.getY() + 720 < 0){
+						background2.setY(720);
+					}
 				}
 			};
 
@@ -101,9 +138,17 @@ public class GameScreen extends MyScreen {
 			background.setSize(1280,720);
 			background.setPosition(0,0);
 
+			background2.setSize(1280,720);
+			background2.setPosition(0,720);
+
+			pause.setPosition(1205,645);
+			pause.setSize(72,72);
+
 			addActor(background);
+			addActor(background2);
 			addActor(myCar);
 			addActor(enemyCar);
+			addActor(pause);
 		}
 
 	};

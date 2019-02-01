@@ -26,6 +26,8 @@ public class Assets {
     public static final AssetDescriptor<Texture> EASY_TEXTURE = new AssetDescriptor<Texture>("actors/diff/easy.png", Texture.class);
     public static final AssetDescriptor<Texture> MED_TEXTURE = new AssetDescriptor<Texture>("actors/diff/medium.png", Texture.class);
     public static final AssetDescriptor<Texture> HARD_TEXTURE = new AssetDescriptor<Texture>("actors/diff/hard.png", Texture.class);
+    public static final AssetDescriptor<Texture> PAUSE_TEXTURE = new AssetDescriptor<Texture>("actors/pause.png", Texture.class);
+    public static final AssetDescriptor<Texture> CONTINUE_TEXTURE = new AssetDescriptor<Texture>("actors/continue.png", Texture.class);
     public static void prepare() {
         manager = new AssetManager();
         Texture.setAssetManager(manager);
@@ -45,6 +47,8 @@ public class Assets {
         manager.load(EASY_TEXTURE);
         manager.load(MED_TEXTURE);
         manager.load(HARD_TEXTURE);
+        manager.load(PAUSE_TEXTURE);
+        manager.load(CONTINUE_TEXTURE);
     }
 
     public static void unload() {

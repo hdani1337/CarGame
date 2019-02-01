@@ -18,6 +18,8 @@ public class HomeScreen extends MyScreen {
     OneSpriteStaticActor background;
     Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);
 
+    public static int pontszam;
+
     MyStage home = new MyStage(new ExtendViewport(1280,720),spriteBatch,game) {
         @Override
         public void init() {
@@ -30,6 +32,7 @@ public class HomeScreen extends MyScreen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    pontszam = 0;
                     game.setScreen(new DifficultyScreen(game));
                     return super.touchDown(event, x, y, pointer, button);
                 }
