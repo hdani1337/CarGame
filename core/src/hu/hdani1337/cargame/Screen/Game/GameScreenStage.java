@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
@@ -14,6 +15,7 @@ import hu.hdani1337.cargame.MyBaseClasses.Assets;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.hdani1337.cargame.MyBaseClasses.UI.MyLabel;
 import hu.hdani1337.cargame.Screen.Crash.CrashScreenStage;
 import hu.hdani1337.cargame.Screen.Pause.PauseScreenStage;
 
@@ -21,6 +23,7 @@ public class GameScreenStage extends MyScreen {
 
 	OneSpriteStaticActor myCar;
 	OneSpriteStaticActor enemyCar;
+	OneSpriteStaticActor block;
 	OneSpriteStaticActor background;
 	OneSpriteStaticActor background2;
 	OneSpriteStaticActor pause;
@@ -163,6 +166,49 @@ public class GameScreenStage extends MyScreen {
 				}
 			};
 
+			block = new OneSpriteStaticActor(Assets.manager.get(Assets.BLOCK_TEXTURE)){
+				@Override
+				public void setDebug(boolean enabled) {
+				super.setDebug(false);
+				}
+
+				@Override
+				public void act(float delta) {
+					super.act(delta);
+					setY(getY() - 7);
+					if(block.getY() + block.getHeight() < 0){//Sávválasztás
+						sav = (int)(Math.random() * 4 + 1);
+						if(sav == 1){
+							block.setX(250);
+						}
+
+						if(sav == 2){
+							block.setX(450);
+						}
+
+						if(sav == 3){
+							block.setX(685);
+						}
+
+						if(sav == 4){
+							block.setX(890);
+						}
+						setY((int)(Math.random() * 5000 + 1000));
+						pontszam++;
+						speed += nehezsegNov;//Sebességnövelés
+					}
+
+					if(overlaps(myCar,block) == true){//Ütközés az ellenféllel
+						bgMusic.stop();
+						crash.play();
+						myCarDegree = myCar.getRotation();
+						pontszam = 0;
+						game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
+					}
+				}
+
+			};
+
 			myCar.setSize(50,120);
 			myCar.addBaseCollisionRectangleShape();
 			myCar.setPosition(615,5);
@@ -180,10 +226,14 @@ public class GameScreenStage extends MyScreen {
 			pause.setPosition(1205,645);
 			pause.setSize(72,72);
 
+			block.setPosition(450,5000);
+			block.setSize(150,150);
+
 			addActor(background);
 			addActor(background2);
 			addActor(myCar);
 			addActor(enemyCar);
+			addActor(block);
 			addActor(pause);
 		}
 

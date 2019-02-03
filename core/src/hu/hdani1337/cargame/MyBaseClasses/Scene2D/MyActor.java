@@ -1,6 +1,5 @@
 package hu.hdani1337.cargame.MyBaseClasses.Scene2D;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -10,13 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import hu.hdani1337.cargame.MyBaseClasses.Game.InitableInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import hu.hdani1337.cargame.MyBaseClasses.Game.InitableInterface;
 
 /**
  * Created by tuskeb on 2016. 09. 30..

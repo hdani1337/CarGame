@@ -9,8 +9,7 @@ import hu.hdani1337.cargame.MyBaseClasses.Game.InitableInterface;
  */
 public class MyLabel extends Label implements InitableInterface {
 
-
-    public MyLabel(CharSequence text, LabelStyle style) {
+    public MyLabel(LabelStyle style, CharSequence text) {
         super(text, style);
         init();
     }

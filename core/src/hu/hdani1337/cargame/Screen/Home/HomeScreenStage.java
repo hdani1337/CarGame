@@ -19,6 +19,7 @@ public class HomeScreenStage extends MyScreen {
     OneSpriteStaticActor demoCar;
     OneSpriteStaticActor demoCar2;
     OneSpriteStaticActor startBTN;
+    OneSpriteStaticActor kilepBTN;
     OneSpriteStaticActor background;
     Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);
 
@@ -27,7 +28,7 @@ public class HomeScreenStage extends MyScreen {
     MyStage home = new MyStage(new ExtendViewport(1280,720, new OrthographicCamera(1280, 720)),spriteBatch,game) {
         @Override
         public void init() {
-            startBTN = new OneSpriteStaticActor(Assets.manager.get(Assets.START_BUTTON)){
+            startBTN = new OneSpriteStaticActor(Assets.manager.get(Assets.CONTINUE_TEXTURE)){
                 @Override
                 public void setDebug(boolean enabled) {
                     super.setDebug(false);
@@ -47,6 +48,21 @@ public class HomeScreenStage extends MyScreen {
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
+
+            kilepBTN = new OneSpriteStaticActor(Assets.manager.get(Assets.EXIT_TEXTURE)){
+                @Override
+                public void setDebug(boolean enabled) {
+                    super.setDebug(false);
+                }
+
+            };
+            kilepBTN.addListener(new ClickListener(){
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    Gdx.app.exit();
+                }
+            });
+
 
 
             background = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
@@ -140,12 +156,17 @@ public class HomeScreenStage extends MyScreen {
             demoCar.setPosition(300,-1250);
             demoCar2.setPosition(735,1500);
 
-            startBTN.setPosition(485,75);
+            startBTN.setPosition(435,100);
+            startBTN.setSize(200,200);
+
+            kilepBTN.setPosition(650, 100);
+            kilepBTN.setSize(200,200);
 
             addActor(background);
             addActor(demoCar);
             addActor(demoCar2);
             addActor(startBTN);
+            addActor(kilepBTN);
         }
     };
 

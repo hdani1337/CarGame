@@ -23,7 +23,6 @@ public class CrashScreenStage extends MyScreen {
     OneSpriteStaticActor mycar;
     OneSpriteStaticActor enemy;
     MyStage crash;
-    BitmapFont score;
 
     public CrashScreenStage(CarGame game, float myXT, float eXT, float eYT) {
         super(game);
@@ -61,8 +60,6 @@ public class CrashScreenStage extends MyScreen {
                     }
 
                 };
-
-                score = new BitmapFont();
 
                 backgroundLost.setSize(1280, 720);
                 backgroundLost.setPosition(0, 0);

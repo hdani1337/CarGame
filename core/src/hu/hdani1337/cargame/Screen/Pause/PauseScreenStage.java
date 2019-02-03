@@ -18,6 +18,7 @@ public class PauseScreenStage extends MyScreen {
 
     OneSpriteStaticActor bg;
     OneSpriteStaticActor folyt;
+    OneSpriteStaticActor kilep;
     MyStage pauseStage;
 
     Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
@@ -49,6 +50,20 @@ public class PauseScreenStage extends MyScreen {
                     }
                 });
 
+                kilep = new OneSpriteStaticActor(Assets.manager.get(Assets.EXIT_TEXTURE)){
+                    @Override
+                    public void setDebug(boolean enabled) {
+                        super.setDebug(false);
+                    }
+
+                };
+                kilep.addListener(new ClickListener(){
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        Gdx.app.exit();
+                    }
+                });
+
                 bg = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
                     @Override
                     public void setDebug(boolean enabled) {
@@ -57,10 +72,15 @@ public class PauseScreenStage extends MyScreen {
 
                 };
 
-                folyt.setPosition(515,235);
+                folyt.setPosition(435,260);
+                folyt.setSize(200,200);
+
+                kilep.setPosition(650, 260);
+                kilep.setSize(200,200);
 
                 addActor(bg);
                 addActor(folyt);
+                addActor(kilep);
             }
         };
     }
