@@ -1,19 +1,23 @@
-package hu.hdani1337.cargame.Screen;
+package hu.hdani1337.cargame.Screen.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+
+import hu.hdani1337.cargame.CarGame;
 import hu.hdani1337.cargame.MyBaseClasses.Assets;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
-import hu.hdani1337.cargame.CarGame;
+import hu.hdani1337.cargame.Screen.Crash.CrashScreenStage;
+import hu.hdani1337.cargame.Screen.Pause.PauseScreenStage;
 
-public class GameScreen extends MyScreen {
+public class GameScreenStage extends MyScreen {
 
 	OneSpriteStaticActor myCar;
 	OneSpriteStaticActor enemyCar;
@@ -24,11 +28,12 @@ public class GameScreen extends MyScreen {
 	public static int nehezseg;
 	public static int nehezsegNov;
 	public static int pontszam;
+	public static float myCarDegree;
 
 	Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
 	Sound crash = Assets.manager.get(Assets.CRASH_SOUND);
 
-	MyStage stage = new MyStage(new ExtendViewport(1280,720), spriteBatch, game ) {
+	MyStage stage = new MyStage(new ExtendViewport(1280,720, new OrthographicCamera(1280, 720)), spriteBatch, game ) {
 
 		int sav;
 		int speed;
@@ -37,8 +42,14 @@ public class GameScreen extends MyScreen {
 		public void init() {
 			speed = nehezseg;
 
-			pause = new OneSpriteStaticActor(Assets.manager.get(Assets.PAUSE_TEXTURE));
+			pause = new OneSpriteStaticActor(Assets.manager.get(Assets.PAUSE_TEXTURE)){
+				@Override
+					public void setDebug(boolean enabled) {
+					super.setDebug(false);
+				}
+			};
 			pause.addListener(new ClickListener(){
+
 				public void clicked(InputEvent event, float x, float y) {
 					super.clicked(event, x, y);
 				}
@@ -46,24 +57,38 @@ public class GameScreen extends MyScreen {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					bgMusic.pause();
-					game.setScreen(new PauseScreen(game));
+					game.setScreen(new PauseScreenStage(game));
 					return super.touchDown(event, x, y, pointer, button);
 				}
 			});
 
 			myCar = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR_TEXTURE)){
 				@Override
+				public void setDebug(boolean enabled) {
+					super.setDebug(false);
+				}
+
+				@Override
 				public void act(float delta){
 					super.act(delta);
 					setX(getX() +  Gdx.input.getAccelerometerY() * 3);
+					setRotation(Gdx.input.getAccelerometerY() * 6);
 					if(myCar.getX()<=169 || myCar.getX()>=1070){//Korlátnak ütközés
+						bgMusic.stop();
+						crash.play();
+						myCarDegree = myCar.getRotation();
 						pontszam = 0;
-						game.setScreen(new CrashScreen(game, myCar.getX(),enemyCar.getX(),enemyCar.getY()));
+						game.setScreen(new CrashScreenStage(game, myCar.getX(),enemyCar.getX(),enemyCar.getY()));
 					}
 				}
 			};
 
 			enemyCar = new OneSpriteStaticActor(Assets.manager.get(Assets.ENEMY_TEXTURE)){
+				@Override
+				public void setDebug(boolean enabled) {
+					super.setDebug(false);
+				}
+
 				@Override
 				public void act(float delta) {
 					super.act(delta);
@@ -94,22 +119,28 @@ public class GameScreen extends MyScreen {
 					if(overlaps(myCar,enemyCar) == true){//Ütközés az ellenféllel
 						bgMusic.stop();
 						crash.play();
+						myCarDegree = myCar.getRotation();
 						pontszam = 0;
-						game.setScreen(new CrashScreen(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
+						game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
 					}
 				}
 			};
 
 			background = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
 				@Override
+				public void setDebug(boolean enabled) {
+					super.setDebug(false);
+				}
+
+				@Override
 				public void act(float delta) {
 					super.act(delta);
-					background.setY(getY() - delta * speed);
+					background.setY(getY() - 5);
 					bgMusic.setLooping(true);
 					bgMusic.setVolume(0.4f);
 					bgMusic.play();
 
-					if(background.getY() + 720 < 0){
+					if(background.getY() + 720 <= 0){
 						background.setY(720);
 					}
 				}
@@ -117,11 +148,16 @@ public class GameScreen extends MyScreen {
 
 			background2 = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
 				@Override
+				public void setDebug(boolean enabled) {
+					super.setDebug(false);
+				}
+
+				@Override
 				public void act(float delta) {
 					super.act(delta);
-					background2.setY(getY() - delta * speed);
+					background2.setY(getY() - 5);
 
-					if(background2.getY() + 720 < 0){
+					if(background2.getY() + 720 <= 0){
 						background2.setY(720);
 					}
 				}
@@ -153,7 +189,7 @@ public class GameScreen extends MyScreen {
 
 	};
 
-	public GameScreen(CarGame game) {
+	public GameScreenStage(CarGame game) {
 		super(game);
 	}
 
@@ -173,9 +209,11 @@ public class GameScreen extends MyScreen {
 		super.render(delta);
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			myCar.setX(myCar.getX() - 6);
+			myCar.setRotation(-5);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			myCar.setX(myCar.getX() + 6);
+			myCar.setRotation(5);
 		}
 		stage.act(delta);
 		stage.draw();

@@ -2,15 +2,32 @@ package hu.hdani1337.cargame.MyBaseClasses;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 
 public class Assets {
 
     public static AssetManager manager;
+
+    public static final String CHARS = "0123456789öüóqwertzuiopőúasdfghjkléáűíyxcvbnm'+!%/=()ÖÜÓQWERTZUIOPŐÚASDFGHJKLÉÁŰÍYXCVBNM?:_*<>#&@{}[],-.";
+
+    static final FreetypeFontLoader.FreeTypeFontLoaderParameter fontParameter;
+
+    static {
+        fontParameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        fontParameter.fontFileName = "font.ttf";
+        fontParameter.fontParameters.size = 30;
+        fontParameter.fontParameters.characters = CHARS;
+        fontParameter.fontParameters.color = Color.WHITE;
+    }
 
 
     public static final AssetDescriptor<Texture> CAR_TEXTURE = new AssetDescriptor<Texture>("actors/car.png", Texture.class);
@@ -28,12 +45,19 @@ public class Assets {
     public static final AssetDescriptor<Texture> HARD_TEXTURE = new AssetDescriptor<Texture>("actors/diff/hard.png", Texture.class);
     public static final AssetDescriptor<Texture> PAUSE_TEXTURE = new AssetDescriptor<Texture>("actors/pause.png", Texture.class);
     public static final AssetDescriptor<Texture> CONTINUE_TEXTURE = new AssetDescriptor<Texture>("actors/continue.png", Texture.class);
+    public static final AssetDescriptor<BitmapFont> ARIAL = new AssetDescriptor<BitmapFont>(fontParameter.fontFileName, BitmapFont.class, fontParameter);
     public static void prepare() {
         manager = new AssetManager();
         Texture.setAssetManager(manager);
     }
 
     public static void load() {
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
+
+
         manager.load(CAR_TEXTURE);
         manager.load(ENEMY_TEXTURE);
         manager.load(HATTER_TEXTURE);

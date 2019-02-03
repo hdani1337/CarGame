@@ -3,10 +3,9 @@ package hu.hdani1337.cargame;
 import hu.hdani1337.cargame.MyBaseClasses.Assets;
 import hu.hdani1337.cargame.MyBaseClasses.Game.MyGame;
 
-import hu.hdani1337.cargame.Screen.HomeScreen;
+import hu.hdani1337.cargame.Screen.Home.HomeScreenStage;
 
 public class CarGame extends MyGame {
-
     @Override
     public void create () {
         Assets.prepare();
@@ -15,7 +14,7 @@ public class CarGame extends MyGame {
         while (!Assets.manager.update()){
             System.out.print(".");
         }
-        setScreen(new HomeScreen(this));
+        setScreen(new HomeScreenStage(this));
     }
 
 }
