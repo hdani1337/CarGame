@@ -13,15 +13,20 @@ import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.hdani1337.cargame.Screen.Game.GameScreenStage;
+import hu.hdani1337.cargame.Screen.Home.HomeScreenStage;
+import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 
 public class PauseScreenStage extends MyScreen {
 
     OneSpriteStaticActor bg;
     OneSpriteStaticActor folyt;
     OneSpriteStaticActor kilep;
+    OneSpriteStaticActor settingsBTN;
     MyStage pauseStage;
 
     Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
+
+    public static byte inGame;
 
     public PauseScreenStage(CarGame game) {
         super(game);
@@ -29,6 +34,7 @@ public class PauseScreenStage extends MyScreen {
         pauseStage = new MyStage(new ExtendViewport(1280,720, new OrthographicCamera(1280, 720)), spriteBatch, game) {
             @Override
             public void init() {
+                inGame = 0;
 
                 folyt = new OneSpriteStaticActor(Assets.manager.get(Assets.CONTINUE_TEXTURE)){
                     @Override
@@ -64,6 +70,20 @@ public class PauseScreenStage extends MyScreen {
                     }
                 });
 
+                settingsBTN = new OneSpriteStaticActor(Assets.manager.get(Assets.SETTINGS_TEXTURE)){
+                    @Override
+                    public void setDebug(boolean enabled) {
+                        super.setDebug(false);
+                    }};
+                settingsBTN.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        inGame = 1;
+                        game.setScreen(new OptionsScreenStage(game));
+                    }
+                });
+
                 bg = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
                     @Override
                     public void setDebug(boolean enabled) {
@@ -78,9 +98,13 @@ public class PauseScreenStage extends MyScreen {
                 kilep.setPosition(650, 260);
                 kilep.setSize(200,200);
 
+                settingsBTN.setPosition((float)542.5,50);
+                settingsBTN.setSize(200,200);
+
                 addActor(bg);
                 addActor(folyt);
                 addActor(kilep);
+                addActor(settingsBTN);
             }
         };
     }

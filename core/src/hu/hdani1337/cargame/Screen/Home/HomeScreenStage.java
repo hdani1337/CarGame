@@ -13,6 +13,8 @@ import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.hdani1337.cargame.Screen.Difficulty.DifficultyScreenStage;
+import hu.hdani1337.cargame.Screen.Info.InfoScreenStage;
+import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 
 public class HomeScreenStage extends MyScreen {
 
@@ -20,6 +22,8 @@ public class HomeScreenStage extends MyScreen {
     OneSpriteStaticActor demoCar2;
     OneSpriteStaticActor startBTN;
     OneSpriteStaticActor kilepBTN;
+    OneSpriteStaticActor infoBTN;
+    OneSpriteStaticActor settingsBTN;
     OneSpriteStaticActor background;
     Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);
 
@@ -63,7 +67,39 @@ public class HomeScreenStage extends MyScreen {
                 }
             });
 
+            infoBTN = new OneSpriteStaticActor(Assets.manager.get(Assets.INFO_TEXTURE)){
+                @Override
+                public void setDebug(boolean enabled) {
+                    super.setDebug(false);
+                }
+            };
 
+            infoBTN.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    game.setScreen(new InfoScreenStage(game));
+                }
+            });
+
+            settingsBTN = new OneSpriteStaticActor(Assets.manager.get(Assets.SETTINGS_TEXTURE)){
+                @Override
+                public void setDebug(boolean enabled) {
+                super.setDebug(false);
+            }};
+            settingsBTN.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                }
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    pontszam = 0;
+                    game.setScreen(new OptionsScreenStage(game));
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+            });
 
             background = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
                 @Override
@@ -74,13 +110,18 @@ public class HomeScreenStage extends MyScreen {
                 @Override
                 public void act(float delta) {
                     super.act(delta);
-                    bgMusic.setLooping(true);
-                    bgMusic.setVolume(0.4f);
-                    bgMusic.play();
+
+                    if(OptionsScreenStage.ifMuted == 0) {
+                        bgMusic.setLooping(true);
+                        bgMusic.setVolume(0.4f);
+                        bgMusic.play();
+                    }
+
+                    if(OptionsScreenStage.ifMuted == 1){
+                        bgMusic.stop();
+                    }
                 }
             };
-
-
 
             demoCar = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR_TEXTURE)) {
                 @Override
@@ -156,17 +197,25 @@ public class HomeScreenStage extends MyScreen {
             demoCar.setPosition(300,-1250);
             demoCar2.setPosition(735,1500);
 
-            startBTN.setPosition(435,100);
+            infoBTN.setPosition(225,100);
+            infoBTN.setSize(200,200);
+
+            startBTN.setPosition(430,100);
             startBTN.setSize(200,200);
 
             kilepBTN.setPosition(650, 100);
             kilepBTN.setSize(200,200);
+
+            settingsBTN.setPosition(865,100);
+            settingsBTN.setSize(200,200);
 
             addActor(background);
             addActor(demoCar);
             addActor(demoCar2);
             addActor(startBTN);
             addActor(kilepBTN);
+            addActor(settingsBTN);
+            addActor(infoBTN);
         }
     };
 

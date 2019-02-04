@@ -17,19 +17,6 @@ public class Assets {
 
     public static AssetManager manager;
 
-    public static final String CHARS = "0123456789öüóqwertzuiopőúasdfghjkléáűíyxcvbnm'+!%/=()ÖÜÓQWERTZUIOPŐÚASDFGHJKLÉÁŰÍYXCVBNM?:_*<>#&@{}[],-.";
-
-    static final FreetypeFontLoader.FreeTypeFontLoaderParameter fontParameter;
-
-    static {
-        fontParameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        fontParameter.fontFileName = "font.ttf";
-        fontParameter.fontParameters.size = 30;
-        fontParameter.fontParameters.characters = CHARS;
-        fontParameter.fontParameters.color = Color.WHITE;
-    }
-
-
     public static final AssetDescriptor<Texture> CAR_TEXTURE = new AssetDescriptor<Texture>("actors/car.png", Texture.class);
     public static final AssetDescriptor<Texture> ENEMY_TEXTURE = new AssetDescriptor<Texture>("actors/enemyCar.png", Texture.class);
     public static final AssetDescriptor<Texture> CAR_TEXTURE_CRASHED = new AssetDescriptor<Texture>("actors/carCrash.png", Texture.class);
@@ -42,23 +29,25 @@ public class Assets {
     public static final AssetDescriptor<Texture> EASY_TEXTURE = new AssetDescriptor<Texture>("actors/diff/easy.png", Texture.class);
     public static final AssetDescriptor<Texture> MED_TEXTURE = new AssetDescriptor<Texture>("actors/diff/medium.png", Texture.class);
     public static final AssetDescriptor<Texture> HARD_TEXTURE = new AssetDescriptor<Texture>("actors/diff/hard.png", Texture.class);
-    public static final AssetDescriptor<Texture> PAUSE_TEXTURE = new AssetDescriptor<Texture>("actors/pause.png", Texture.class);
-    public static final AssetDescriptor<Texture> CONTINUE_TEXTURE = new AssetDescriptor<Texture>("actors/continue.png", Texture.class);
-    public static final AssetDescriptor<Texture> EXIT_TEXTURE = new AssetDescriptor<Texture>("actors/exit.png", Texture.class);
+    public static final AssetDescriptor<Texture> PAUSE_TEXTURE = new AssetDescriptor<Texture>("actors/btns/pause.png", Texture.class);
+    public static final AssetDescriptor<Texture> CONTINUE_TEXTURE = new AssetDescriptor<Texture>("actors/btns/continue.png", Texture.class);
+    public static final AssetDescriptor<Texture> EXIT_TEXTURE = new AssetDescriptor<Texture>("actors/btns/exit.png", Texture.class);
     public static final AssetDescriptor<Texture> BLOCK_TEXTURE = new AssetDescriptor<Texture>("actors/block.png", Texture.class);
-    public static final AssetDescriptor<BitmapFont> ARIAL = new AssetDescriptor<BitmapFont>(fontParameter.fontFileName, BitmapFont.class, fontParameter);
+    public static final AssetDescriptor<Texture> SETTINGS_TEXTURE = new AssetDescriptor<Texture>("actors/btns/settings.png", Texture.class);
+    public static final AssetDescriptor<Texture> BACK_TEXTURE = new AssetDescriptor<Texture>("actors/btns/back.png", Texture.class);
+    public static final AssetDescriptor<Texture> INFO_TEXTURE = new AssetDescriptor<Texture>("actors/btns/info.png", Texture.class);
+    public static final AssetDescriptor<Texture> CONTROLF_TEXTURE = new AssetDescriptor<Texture>("actors/btns/control_flip.png", Texture.class);
+    public static final AssetDescriptor<Texture> CONTROLT_TEXTURE = new AssetDescriptor<Texture>("actors/btns/control_touch.png", Texture.class);
+    public static final AssetDescriptor<Texture> MUTE_TEXTURE = new AssetDescriptor<Texture>("actors/btns/mute.png", Texture.class);
+    public static final AssetDescriptor<Texture> UNMUTE_TEXTURE = new AssetDescriptor<Texture>("actors/btns/unmute.png", Texture.class);
+    public static final AssetDescriptor<Texture> LEFT_ARROW = new AssetDescriptor<Texture>("actors/btns/left.png", Texture.class);
+    public static final AssetDescriptor<Texture> RIGHT_ARROW = new AssetDescriptor<Texture>("actors/btns/right.png", Texture.class);
     public static void prepare() {
         manager = new AssetManager();
         Texture.setAssetManager(manager);
     }
 
     public static void load() {
-        FileHandleResolver resolver = new InternalFileHandleResolver();
-        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
-
-
         manager.load(CAR_TEXTURE);
         manager.load(ENEMY_TEXTURE);
         manager.load(HATTER_TEXTURE);
@@ -75,7 +64,15 @@ public class Assets {
         manager.load(CONTINUE_TEXTURE);
         manager.load(EXIT_TEXTURE);
         manager.load(BLOCK_TEXTURE);
-        manager.load(ARIAL);
+        manager.load(SETTINGS_TEXTURE);
+        manager.load(BACK_TEXTURE);
+        manager.load(INFO_TEXTURE);
+        manager.load(CONTROLT_TEXTURE);
+        manager.load(CONTROLF_TEXTURE);
+        manager.load(MUTE_TEXTURE);
+        manager.load(UNMUTE_TEXTURE);
+        manager.load(LEFT_ARROW);
+        manager.load(RIGHT_ARROW);
     }
 
     public static void unload() {

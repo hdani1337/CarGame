@@ -17,6 +17,7 @@ import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.hdani1337.cargame.MyBaseClasses.UI.MyLabel;
 import hu.hdani1337.cargame.Screen.Crash.CrashScreenStage;
+import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 import hu.hdani1337.cargame.Screen.Pause.PauseScreenStage;
 
 public class GameScreenStage extends MyScreen {
@@ -27,6 +28,8 @@ public class GameScreenStage extends MyScreen {
 	OneSpriteStaticActor background;
 	OneSpriteStaticActor background2;
 	OneSpriteStaticActor pause;
+	OneSpriteStaticActor rightArrow;
+	OneSpriteStaticActor leftArrow;
 
 	public static int nehezseg;
 	public static int nehezsegNov;
@@ -74,8 +77,33 @@ public class GameScreenStage extends MyScreen {
 				@Override
 				public void act(float delta){
 					super.act(delta);
+
+					//AUTÓ IRÁNYÍTÁS
+					if(OptionsScreenStage.controlType == 0){
 					setX(getX() +  Gdx.input.getAccelerometerY() * 3);
 					setRotation(Gdx.input.getAccelerometerY() * 6);
+					}
+
+					if(OptionsScreenStage.controlType == 1){
+						leftArrow.addListener(new ClickListener(){
+							@Override
+							public void clicked(InputEvent event, float x, float y) {
+								super.clicked(event, x, y);
+								myCar.setX(myCar.getX() - 0.099f);
+								myCar.setRotation(-4);
+							}
+						});
+
+						rightArrow.addListener(new ClickListener(){
+							@Override
+							public void clicked(InputEvent event, float x, float y) {
+								super.clicked(event, x, y);
+								myCar.setX(myCar.getX() + 0.099f);
+								myCar.setRotation(4);
+							}
+						});
+					}
+
 					if(myCar.getX()<=169 || myCar.getX()>=1070){//Korlátnak ütközés
 						bgMusic.stop();
 						crash.play();
@@ -84,7 +112,7 @@ public class GameScreenStage extends MyScreen {
 						game.setScreen(new CrashScreenStage(game, myCar.getX(),enemyCar.getX(),enemyCar.getY()));
 					}
 				}
-			};
+			};//AZ ÉN AUTÓM
 
 			enemyCar = new OneSpriteStaticActor(Assets.manager.get(Assets.ENEMY_TEXTURE)){
 				@Override
@@ -127,7 +155,7 @@ public class GameScreenStage extends MyScreen {
 						game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
 					}
 				}
-			};
+			};//ELLENSÉGES AUTÓ
 
 			background = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
 				@Override
@@ -139,15 +167,22 @@ public class GameScreenStage extends MyScreen {
 				public void act(float delta) {
 					super.act(delta);
 					background.setY(getY() - 5);
-					bgMusic.setLooping(true);
-					bgMusic.setVolume(0.4f);
-					bgMusic.play();
+
+					if(OptionsScreenStage.ifMuted == 0){
+						bgMusic.setLooping(true);
+						bgMusic.setVolume(0.4f);
+						bgMusic.play();
+					}
+
+					if(OptionsScreenStage.ifMuted == 1){
+						bgMusic.stop();
+					}
 
 					if(background.getY() + 720 <= 0){
 						background.setY(720);
 					}
 				}
-			};
+			};//HÁTTÉR
 
 			background2 = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
 				@Override
@@ -164,7 +199,7 @@ public class GameScreenStage extends MyScreen {
 						background2.setY(720);
 					}
 				}
-			};
+			};//HÁTTÉR
 
 			block = new OneSpriteStaticActor(Assets.manager.get(Assets.BLOCK_TEXTURE)){
 				@Override
@@ -207,7 +242,21 @@ public class GameScreenStage extends MyScreen {
 					}
 				}
 
-			};
+			};//AKADÁLY
+
+			leftArrow = new OneSpriteStaticActor(Assets.manager.get(Assets.LEFT_ARROW)){
+				@Override
+				public void setDebug(boolean enabled) {
+					super.setDebug(false);
+				}
+			};//BALRA GOMB
+			rightArrow = new OneSpriteStaticActor(Assets.manager.get(Assets.RIGHT_ARROW)){
+				@Override
+				public void setDebug(boolean enabled) {
+					super.setDebug(false);
+				}
+			};//JOBBRA GOMB
+
 
 			myCar.setSize(50,120);
 			myCar.addBaseCollisionRectangleShape();
@@ -235,6 +284,16 @@ public class GameScreenStage extends MyScreen {
 			addActor(enemyCar);
 			addActor(block);
 			addActor(pause);
+
+			if(OptionsScreenStage.controlType == 1){
+				leftArrow.setSize(75,75);
+				rightArrow.setSize(75,75);
+
+				leftArrow.setPosition(950,50);
+				rightArrow.setPosition(1050,50);
+				addActor(leftArrow);
+				addActor(rightArrow);
+			}
 		}
 
 	};

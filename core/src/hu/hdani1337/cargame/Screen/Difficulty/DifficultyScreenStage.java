@@ -13,6 +13,7 @@ import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.hdani1337.cargame.Screen.Game.GameScreenStage;
+import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 
 public class DifficultyScreenStage extends MyScreen {
     int nehezseg;
@@ -31,6 +32,9 @@ public class DifficultyScreenStage extends MyScreen {
     MyStage difficulty = new MyStage(new ExtendViewport(1280,720, new OrthographicCamera(1280, 720)),spriteBatch,game) {
         @Override
         public void init() {
+            if(OptionsScreenStage.ifMuted == 1){
+                bgMusic.stop();
+            }
             background = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER_TEXTURE)){
                 @Override
                 public void setDebug(boolean enabled) {
