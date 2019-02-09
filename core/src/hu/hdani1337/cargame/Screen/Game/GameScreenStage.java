@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -27,14 +29,20 @@ public class GameScreenStage extends MyScreen {
 	OneSpriteStaticActor block;
 	OneSpriteStaticActor background;
 	OneSpriteStaticActor background2;
+	OneSpriteStaticActor textbg;
 	OneSpriteStaticActor pause;
 	OneSpriteStaticActor rightArrow;
 	OneSpriteStaticActor leftArrow;
+
+	long ido = 0;
+	boolean cheat = false;
 
 	public static int nehezseg;
 	public static int nehezsegNov;
 	public static int pontszam;
 	public static float myCarDegree;
+
+	MyLabel pontLabel;
 
 	Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
 	Sound crash = Assets.manager.get(Assets.CRASH_SOUND);
@@ -43,10 +51,21 @@ public class GameScreenStage extends MyScreen {
 
 		int sav;
 		int speed;
+		float palyaFele;
 
 		@Override
 		public void init() {
+			palyaFele = getViewport().getWorldWidth()/2;
 			speed = nehezseg;
+
+			pontLabel = new MyLabel(CarGame.getLabelStyle(),""+pontszam);
+
+			textbg = new OneSpriteStaticActor(Assets.manager.get(Assets.SZOVEG_HATTER)){
+				@Override
+				public void setDebug(boolean enabled) {
+					super.setDebug(false);
+				}
+			};
 
 			pause = new OneSpriteStaticActor(Assets.manager.get(Assets.PAUSE_TEXTURE)){
 				@Override
@@ -108,7 +127,6 @@ public class GameScreenStage extends MyScreen {
 						bgMusic.stop();
 						crash.play();
 						myCarDegree = myCar.getRotation();
-						pontszam = 0;
 						game.setScreen(new CrashScreenStage(game, myCar.getX(),enemyCar.getX(),enemyCar.getY()));
 					}
 				}
@@ -127,7 +145,7 @@ public class GameScreenStage extends MyScreen {
 					if(enemyCar.getY() + enemyCar.getHeight() < 0){//Sávválasztás
 						sav = (int)(Math.random() * 4 + 1);
 						if(sav == 1){
-							enemyCar.setX(300);
+							enemyCar.setX(295);
 						}
 
 						if(sav == 2){
@@ -135,14 +153,18 @@ public class GameScreenStage extends MyScreen {
 						}
 
 						if(sav == 3){
-							enemyCar.setX(735);
+							enemyCar.setX(730);
 						}
 
 						if(sav == 4){
-							enemyCar.setX(940);
+							enemyCar.setX(935);
 						}
 						setY(stage.getHeight());
 						pontszam++;
+						pontLabel.setText(""+pontszam);
+						if(pontszam == 10){
+							pontLabel.setX(pontLabel.getX() - 7.5f);
+						}
 						speed += nehezsegNov;//Sebességnövelés
 						System.out.println(pontszam);
 					}
@@ -151,7 +173,6 @@ public class GameScreenStage extends MyScreen {
 						bgMusic.stop();
 						crash.play();
 						myCarDegree = myCar.getRotation();
-						pontszam = 0;
 						game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
 					}
 				}
@@ -210,38 +231,28 @@ public class GameScreenStage extends MyScreen {
 				@Override
 				public void act(float delta) {
 					super.act(delta);
-					setY(getY() - 7);
-					if(block.getY() + block.getHeight() < 0){//Sávválasztás
-						sav = (int)(Math.random() * 4 + 1);
-						if(sav == 1){
-							block.setX(250);
-						}
 
-						if(sav == 2){
-							block.setX(450);
-						}
-
-						if(sav == 3){
-							block.setX(685);
-						}
-
-						if(sav == 4){
-							block.setX(890);
-						}
-						setY((int)(Math.random() * 5000 + 1000));
-						pontszam++;
-						speed += nehezsegNov;//Sebességnövelés
+					if (block.getY() + block.getHeight() < 0) {
+						block.setY(2000);
 					}
 
-					if(overlaps(myCar,block) == true){//Ütközés az ellenféllel
-						bgMusic.stop();
-						crash.play();
-						myCarDegree = myCar.getRotation();
-						pontszam = 0;
-						game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
+					if (myCar.getX() > 560 && myCar.getX() < 670) {
+						block.setY(block.getY() - (float)0.0001);
+						if (block.getY() <= myCar.getY() + myCar.getHeight()) {
+							bgMusic.stop();
+							crash.play();
+							game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(), enemyCar.getY()));
+						}
 					}
+					if (block.getY() != 2000) {
+						block.setY(block.getY() - 5);
+					}
+
+
+					System.out.println(block.getY());
+
+
 				}
-
 			};//AKADÁLY
 
 			leftArrow = new OneSpriteStaticActor(Assets.manager.get(Assets.LEFT_ARROW)){
@@ -263,7 +274,7 @@ public class GameScreenStage extends MyScreen {
 			myCar.setPosition(615,5);
 
 			enemyCar.addBaseCollisionRectangleShape();
-			enemyCar.setSize(50,95);
+			enemyCar.setSize(65,135);
 			enemyCar.setPosition(500,getHeight());
 
 			background.setSize(1280,720);
@@ -275,8 +286,12 @@ public class GameScreenStage extends MyScreen {
 			pause.setPosition(1205,645);
 			pause.setSize(72,72);
 
-			block.setPosition(450,5000);
 			block.setSize(150,150);
+			block.setPosition((palyaFele - (block.getWidth())/2),2000);
+
+			pontLabel.setPosition(palyaFele - (pontLabel.getWidth()/2),720 - (pontLabel.getHeight()));
+			textbg.setPosition(palyaFele - (textbg.getWidth()/2),720 - (pontLabel.getHeight()));
+			textbg.setSize(50,50);
 
 			addActor(background);
 			addActor(background2);
@@ -284,6 +299,8 @@ public class GameScreenStage extends MyScreen {
 			addActor(enemyCar);
 			addActor(block);
 			addActor(pause);
+			addActor(textbg);
+			addActor(pontLabel);
 
 			if(OptionsScreenStage.controlType == 1){
 				leftArrow.setSize(75,75);
@@ -324,8 +341,10 @@ public class GameScreenStage extends MyScreen {
 			myCar.setX(myCar.getX() + 6);
 			myCar.setRotation(5);
 		}
+
 		stage.act(delta);
 		stage.draw();
+
 	}
 
 	@Override

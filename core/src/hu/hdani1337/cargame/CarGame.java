@@ -1,5 +1,9 @@
 package hu.hdani1337.cargame;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
 import hu.hdani1337.cargame.MyBaseClasses.Assets;
 import hu.hdani1337.cargame.MyBaseClasses.Game.MyGame;
 
@@ -15,6 +19,17 @@ public class CarGame extends MyGame {
             System.out.print(".");
         }
         setScreen(new HomeScreenStage(this));
+    }
+
+    public static Label.LabelStyle getLabelStyle() {
+        Label.LabelStyle style;
+        style = new Label.LabelStyle();
+        style.font = Assets.manager.get(Assets.ARIAL);
+        style.fontColor = Color.WHITE;
+        Pixmap p = new Pixmap(2, 2, Pixmap.Format.RGB888);
+        p.setColor(0.4f, 0.2f, 0.8f, 0.5f);
+        p.fill();
+        return style;
     }
 
 }

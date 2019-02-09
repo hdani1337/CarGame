@@ -1,5 +1,6 @@
 package hu.hdani1337.cargame.Screen.Crash;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -9,6 +10,7 @@ import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.hdani1337.cargame.CarGame;
+import hu.hdani1337.cargame.MyBaseClasses.UI.MyLabel;
 import hu.hdani1337.cargame.Screen.Game.GameScreenStage;
 
 public class CrashScreenStage extends MyScreen {
@@ -23,12 +25,15 @@ public class CrashScreenStage extends MyScreen {
     OneSpriteStaticActor mycar;
     OneSpriteStaticActor enemy;
     MyStage crash;
+    MyLabel pontLabel;
 
     public CrashScreenStage(CarGame game, float myXT, float eXT, float eYT) {
         super(game);
         myX = myXT;
         eX = eXT;
         eY = eYT;
+
+        pontLabel = new MyLabel(CarGame.getLabelStyle(),""+GameScreenStage.pontszam+" pontot értél el.");
 
         crash = new MyStage(new ExtendViewport(1280, 720, new OrthographicCamera(1280, 720)), spriteBatch, game) {
             @Override
@@ -68,9 +73,12 @@ public class CrashScreenStage extends MyScreen {
                 mycar.setRotation(GameScreenStage.myCarDegree);
                 enemy.setPosition(eX, eY);
 
+                pontLabel.setPosition((getViewport().getWorldWidth()/2) - (pontLabel.getWidth()/2),282.5f);
+
                 addActor(backgroundLost);
                 addActor(enemy);
                 addActor(mycar);
+                addActor(pontLabel);
 
                 if(myX<=169 || myX>=1070){
                     enemy.remove();
@@ -89,6 +97,7 @@ public class CrashScreenStage extends MyScreen {
         super.render(delta);
 
         if (System.currentTimeMillis() - ido > 3000) {
+            GameScreenStage.pontszam = 0;
             game.setScreen(new GameScreenStage(game));
         }
         crash.draw();
