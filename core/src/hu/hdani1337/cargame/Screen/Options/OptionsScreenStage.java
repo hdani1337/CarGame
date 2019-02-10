@@ -56,7 +56,7 @@ public class OptionsScreenStage extends MyScreen {
                             game.setScreen(new HomeScreenStage(game));
                         }
                         if(PauseScreenStage.inGame == 1) {
-                            game.setScreen(new PauseScreenStage(game));
+                            game.setScreen(new PauseScreenStage(game,GameScreenStage.pause_mycarx,GameScreenStage.pause_mycary,GameScreenStage.pause_enemycarx,GameScreenStage.pause_enemycary,GameScreenStage.pause_korlatx,GameScreenStage.pause_korlaty,GameScreenStage.pause_speed));
                         }
                     }
                 });

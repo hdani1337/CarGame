@@ -26,15 +26,24 @@ public class PauseScreenStage extends MyScreen {
 
     Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
 
-    public static byte inGame;
+    public static byte inGame, unpause;
 
-    public PauseScreenStage(CarGame game) {
+    public PauseScreenStage(CarGame game, final float myCarX, final float myCarY, final float enemyCarX, final float enemyCarY, final float korlatx, final float korlaty, final int speed) {
         super(game);
 
         pauseStage = new MyStage(new ExtendViewport(1280,720, new OrthographicCamera(1280, 720)), spriteBatch, game) {
             @Override
             public void init() {
                 inGame = 0;
+                unpause = 1;
+
+                GameScreenStage.pause_mycarx = myCarX;
+                GameScreenStage.pause_mycary = myCarY;
+                GameScreenStage.pause_enemycarx = enemyCarX;
+                GameScreenStage.pause_enemycary = enemyCarY;
+                GameScreenStage.pause_speed = speed;
+                GameScreenStage.pause_korlatx = korlatx;
+                GameScreenStage.pause_korlaty = korlaty;
 
                 folyt = new OneSpriteStaticActor(Assets.manager.get(Assets.CONTINUE_TEXTURE)){
                     @Override

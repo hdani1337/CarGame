@@ -22,6 +22,8 @@ import hu.hdani1337.cargame.Screen.Crash.CrashScreenStage;
 import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 import hu.hdani1337.cargame.Screen.Pause.PauseScreenStage;
 
+import static hu.hdani1337.cargame.Screen.Pause.PauseScreenStage.unpause;
+
 public class GameScreenStage extends MyScreen {
 
 	OneSpriteStaticActor myCar;
@@ -41,6 +43,10 @@ public class GameScreenStage extends MyScreen {
 	public static int nehezsegNov;
 	public static int pontszam;
 	public static float myCarDegree;
+
+	public static float pause_mycarx, pause_mycary, pause_enemycarx, pause_enemycary, pause_korlatx, pause_korlaty;
+	public static int pause_speed;
+
 
 	MyLabel pontLabel;
 
@@ -82,7 +88,14 @@ public class GameScreenStage extends MyScreen {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					bgMusic.pause();
-					game.setScreen(new PauseScreenStage(game));
+					pause_mycarx = myCar.getX();
+					pause_mycary = myCar.getY();
+					pause_enemycarx = enemyCar.getX();
+					pause_enemycary = enemyCar.getY();
+					pause_speed = speed;
+					pause_korlatx = block.getX();
+					pause_korlaty = block.getY();
+					game.setScreen(new PauseScreenStage(game,myCar.getX(),myCar.getY(),enemyCar.getX(),enemyCar.getY(),block.getX(),block.getY(),speed));
 					return super.touchDown(event, x, y, pointer, button);
 				}
 			});
@@ -127,7 +140,7 @@ public class GameScreenStage extends MyScreen {
 						bgMusic.stop();
 						crash.play();
 						myCarDegree = myCar.getRotation();
-						game.setScreen(new CrashScreenStage(game, myCar.getX(),enemyCar.getX(),enemyCar.getY()));
+						game.setScreen(new CrashScreenStage(game, myCar.getX(),enemyCar.getX(),enemyCar.getY(),false));
 					}
 				}
 			};//AZ ÉN AUTÓM
@@ -173,7 +186,7 @@ public class GameScreenStage extends MyScreen {
 						bgMusic.stop();
 						crash.play();
 						myCarDegree = myCar.getRotation();
-						game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(),enemyCar.getY()));
+						game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(),enemyCar.getY(),true));
 					}
 				}
 			};//ELLENSÉGES AUTÓ
@@ -236,22 +249,51 @@ public class GameScreenStage extends MyScreen {
 						block.setY(2000);
 					}
 
-					if (myCar.getX() > 560 && myCar.getX() < 670) {
+					if (myCar.getX() > 560 && myCar.getX() < 670) {//középen
 						block.setY(block.getY() - (float)0.0001);
+						if(block.getY() > 500) {
+							block.setX(palyaFele - (block.getWidth()) / 2);
+						}
 						if (block.getY() <= myCar.getY() + myCar.getHeight()) {
-							bgMusic.stop();
-							crash.play();
-							game.setScreen(new CrashScreenStage(game, myCar.getX(), enemyCar.getX(), enemyCar.getY()));
+							if(myCar.getX() > block.getX() && (myCar.getX() + myCar.getWidth() < (block.getX() + block.getWidth()))) {
+								bgMusic.stop();
+								crash.play();
+								game.setScreen(new CrashScreenStage(game, myCar.getX(), block.getX(), block.getY(), false));
+							}
 						}
 					}
+
+					if (myCar.getX() > 360 && myCar.getX() < 440) {//1-2 sáv között
+						block.setY(block.getY() - (float)0.0001);
+						if(block.getY() > 500) {
+							block.setX((425 - (block.getWidth() / 2)));
+						}
+						if (block.getY() <= myCar.getY() + myCar.getHeight()) {
+							if(myCar.getX() > block.getX() && (myCar.getX() + myCar.getWidth() < (block.getX() + block.getWidth()))) {
+								bgMusic.stop();
+								crash.play();
+								game.setScreen(new CrashScreenStage(game, myCar.getX(), block.getX(), block.getY(), false));
+							}
+						}
+					}
+
+					if (myCar.getX() > 800 && myCar.getX() < 870) {//3-4 sáv között
+						block.setY(block.getY() - (float)0.0001);
+						if(block.getY() > 500) {//ha már kisebb az Y 500-nál, akkor már ne váltson sávot, mert akkor játszhatatlan lenne
+							block.setX((863 - (block.getWidth() / 2)));
+						}
+						if (block.getY() <= myCar.getY() + myCar.getHeight()) {//ütközés, mert valamiért az overlaps nem működik itt, de megoldjuk okosba'
+							if(myCar.getX() > block.getX() && (myCar.getX() + myCar.getWidth() < (block.getX() + block.getWidth()))){
+								bgMusic.stop();
+								crash.play();
+								game.setScreen(new CrashScreenStage(game, myCar.getX(), block.getX(), block.getY(), false));
+							}
+						}
+					}
+
 					if (block.getY() != 2000) {
 						block.setY(block.getY() - 5);
 					}
-
-
-					System.out.println(block.getY());
-
-
 				}
 			};//AKADÁLY
 
@@ -267,7 +309,6 @@ public class GameScreenStage extends MyScreen {
 					super.setDebug(false);
 				}
 			};//JOBBRA GOMB
-
 
 			myCar.setSize(50,120);
 			myCar.addBaseCollisionRectangleShape();
@@ -287,7 +328,7 @@ public class GameScreenStage extends MyScreen {
 			pause.setSize(72,72);
 
 			block.setSize(150,150);
-			block.setPosition((palyaFele - (block.getWidth())/2),2000);
+			block.setY(2000);
 
 			pontLabel.setPosition(palyaFele - (pontLabel.getWidth()/2),720 - (pontLabel.getHeight()));
 			textbg.setPosition(palyaFele - (textbg.getWidth()/2),720 - (pontLabel.getHeight()));
@@ -310,6 +351,16 @@ public class GameScreenStage extends MyScreen {
 				rightArrow.setPosition(1050,50);
 				addActor(leftArrow);
 				addActor(rightArrow);
+			}
+
+			if(unpause == 1){
+				speed = pause_speed;
+				myCar.setX(pause_mycarx);
+				myCar.setY(pause_mycary);
+				enemyCar.setX(pause_enemycarx);
+				enemyCar.setY(pause_enemycary);
+				block.setX(pause_korlatx);
+				block.setY(pause_korlaty);
 			}
 		}
 
@@ -344,7 +395,6 @@ public class GameScreenStage extends MyScreen {
 
 		stage.act(delta);
 		stage.draw();
-
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class CrashScreenStage extends MyScreen {
     MyStage crash;
     MyLabel pontLabel;
 
-    public CrashScreenStage(CarGame game, float myXT, float eXT, float eYT) {
+    public CrashScreenStage(CarGame game, float myXT, float eXT, float eYT, final boolean car) {
         super(game);
         myX = myXT;
         eX = eXT;
@@ -58,13 +58,26 @@ public class CrashScreenStage extends MyScreen {
 
                 };
 
-                enemy = new OneSpriteStaticActor(Assets.manager.get(Assets.ENEMY_TEXTURE_CRASHED)){
-                    @Override
-                    public void setDebug(boolean enabled) {
-                        super.setDebug(false);
-                    }
+                if(car) {
+                    enemy = new OneSpriteStaticActor(Assets.manager.get(Assets.ENEMY_TEXTURE_CRASHED)) {
+                        @Override
+                        public void setDebug(boolean enabled) {
+                            super.setDebug(false);
+                        }
 
-                };
+                    };
+                }
+
+                if(!car){
+                    enemy = new OneSpriteStaticActor(Assets.manager.get(Assets.BLOCK_CRASH_TEXTURE)) {
+                        @Override
+                        public void setDebug(boolean enabled) {
+                            super.setDebug(false);
+                        }
+
+                    };
+                    enemy.setSize(150,150);
+                }
 
                 backgroundLost.setSize(1280, 720);
                 backgroundLost.setPosition(0, 0);

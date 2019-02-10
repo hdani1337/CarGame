@@ -45,6 +45,7 @@ public class Assets {
     public static final AssetDescriptor<Texture> CONTINUE_TEXTURE = new AssetDescriptor<Texture>("actors/btns/continue.png", Texture.class);
     public static final AssetDescriptor<Texture> EXIT_TEXTURE = new AssetDescriptor<Texture>("actors/btns/exit.png", Texture.class);
     public static final AssetDescriptor<Texture> BLOCK_TEXTURE = new AssetDescriptor<Texture>("actors/block.png", Texture.class);
+    public static final AssetDescriptor<Texture> BLOCK_CRASH_TEXTURE = new AssetDescriptor<Texture>("actors/blockCrash.png", Texture.class);
     public static final AssetDescriptor<Texture> SETTINGS_TEXTURE = new AssetDescriptor<Texture>("actors/btns/settings.png", Texture.class);
     public static final AssetDescriptor<Texture> BACK_TEXTURE = new AssetDescriptor<Texture>("actors/btns/back.png", Texture.class);
     public static final AssetDescriptor<Texture> INFO_TEXTURE = new AssetDescriptor<Texture>("actors/btns/info.png", Texture.class);
@@ -83,6 +84,7 @@ public class Assets {
         manager.load(CONTINUE_TEXTURE);
         manager.load(EXIT_TEXTURE);
         manager.load(BLOCK_TEXTURE);
+        manager.load(BLOCK_CRASH_TEXTURE);
         manager.load(SETTINGS_TEXTURE);
         manager.load(BACK_TEXTURE);
         manager.load(INFO_TEXTURE);
