@@ -18,8 +18,8 @@ public class InfoScreenStage extends MyScreen {
     MyStage info;
     OneSpriteStaticActor bg;
     OneSpriteStaticActor back;
-    OneSpriteStaticActor bgtext;
-    MyLabel text;
+    OneSpriteStaticActor bgtext;//a szövegnek a háttere
+    MyLabel text;//végre jó a szöveg el sem hiszem
 
     public InfoScreenStage(CarGame game) {
         super(game);
@@ -30,7 +30,7 @@ public class InfoScreenStage extends MyScreen {
         info = new MyStage(new ExtendViewport(1280,720),spriteBatch,game) {
             @Override
             public void init() {
-                text = new MyLabel(CarGame.getLabelStyle(),"A játék lényege az, hogy kikerüld a veled\nszembe hajtó autókat. Minden egyes\nkikerült autó után egy pont jár. Sok sikert\na játékhoz!\n\nKészítette: Horváth Dániel\nTanár: Tüske Balázs                              2019");
+                text = new MyLabel(CarGame.getLabelStyle(),"A játék lényege az, hogy kikerüld a veled\nszembe hajtó autókat. Minden egyes\nkikerült autó után egy pont jár. Sok sikert\na játékhoz!\n\nKészítette: Horváth Dániel\nTanár: Tüske Balázs                               2019");
 
                 bgtext = new OneSpriteStaticActor(Assets.manager.get(Assets.SZOVEG_HATTER)){
                     @Override
@@ -61,9 +61,9 @@ public class InfoScreenStage extends MyScreen {
 
                 back.setPosition(225, 100);
                 back.setSize(200,200);
-                bgtext.setSize(640,270);
-                bgtext.setPosition(340,320);
-                text.setPosition(360,335);
+                bgtext.setSize(560,270);
+                bgtext.setPosition(360,320);
+                text.setPosition(375,325);
 
                 addActor(bg);
                 addActor(back);

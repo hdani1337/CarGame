@@ -18,15 +18,15 @@ import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 
 public class PauseScreenStage extends MyScreen {
 
-    OneSpriteStaticActor bg;
-    OneSpriteStaticActor folyt;
-    OneSpriteStaticActor kilep;
-    OneSpriteStaticActor settingsBTN;
-    MyStage pauseStage;
+    OneSpriteStaticActor bg;//háttér
+    OneSpriteStaticActor folyt;//folytatásgomb
+    OneSpriteStaticActor kilep;//kilépésgomb
+    OneSpriteStaticActor settingsBTN;//beállításokgomb
+    MyStage pauseStage;//maga a stage
 
-    Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);
+    Music bgMusic = Assets.manager.get(Assets.GAME_ZENE);//háttérzene, hogy megtudjam állítani
 
-    public static byte inGame, unpause;
+    public static byte inGame, unpause;//ingame azt jelöli, hogy játék közben lett e megállítva
 
     public PauseScreenStage(CarGame game, final float myCarX, final float myCarY, final float enemyCarX, final float enemyCarY, final float korlatx, final float korlaty, final int speed) {
         super(game);
@@ -35,8 +35,9 @@ public class PauseScreenStage extends MyScreen {
             @Override
             public void init() {
                 inGame = 0;
-                unpause = 1;
+                unpause = 1;//ez azért fog kelleni, hogy a GameStage tudja, hogy a játék megvolt állítva
 
+                //a spriteok pozícióit elmentem ideiglenesen, hogy később visszatudjam őket rakni
                 GameScreenStage.pause_mycarx = myCarX;
                 GameScreenStage.pause_mycary = myCarY;
                 GameScreenStage.pause_enemycarx = enemyCarX;

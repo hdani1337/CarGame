@@ -18,10 +18,10 @@ public class CarGame extends MyGame {
         while (!Assets.manager.update()){
             System.out.print(".");
         }
-        setScreen(new HomeScreenStage(this));
+        setScreen(new HomeScreenStage(this));//miután betöltött, meghívom a kezdőképernyőt
     }
 
-    public static Label.LabelStyle getLabelStyle() {
+    public static Label.LabelStyle getLabelStyle() {//label stílusa, nagynehezen sikerült
         Label.LabelStyle style;
         style = new Label.LabelStyle();
         style.font = Assets.manager.get(Assets.ARIAL);

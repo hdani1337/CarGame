@@ -18,8 +18,10 @@ import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 
 public class HomeScreenStage extends MyScreen {
 
-    OneSpriteStaticActor demoCar;
-    OneSpriteStaticActor demoCar2;
+    //kezdőképernyő
+
+    OneSpriteStaticActor demoCar;//autó, háttérben mozog
+    OneSpriteStaticActor demoCar2;//autó, háttérben mozog
     OneSpriteStaticActor startBTN;
     OneSpriteStaticActor kilepBTN;
     OneSpriteStaticActor infoBTN;
@@ -27,7 +29,8 @@ public class HomeScreenStage extends MyScreen {
     OneSpriteStaticActor background;
     Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);
 
-    public static int pontszam;
+    public static int pontszam;//nem értem, mi a rákért itt hozom létre
+    //többin kifogok igazodni később is
 
     MyStage home = new MyStage(new ExtendViewport(1280,720, new OrthographicCamera(1280, 720)),spriteBatch,game) {
         @Override

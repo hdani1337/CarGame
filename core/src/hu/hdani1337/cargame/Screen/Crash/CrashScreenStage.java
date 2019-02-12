@@ -20,6 +20,7 @@ public class CrashScreenStage extends MyScreen {
     float myX;
     float eX;
     float eY;
+    //temp változók, autóm és ellenség pozíciója (akadály vagy ellenfél autó)
 
     OneSpriteStaticActor backgroundLost;
     OneSpriteStaticActor mycar;
@@ -32,6 +33,8 @@ public class CrashScreenStage extends MyScreen {
         myX = myXT;
         eX = eXT;
         eY = eYT;
+        //a meghívott paraméterek értékeit átadom ezeknek a változóknak
+        //tudom, hogy nem lenne muszáj ez a három változó, de inkább biztosra megyek
 
         pontLabel = new MyLabel(CarGame.getLabelStyle(),""+GameScreenStage.pontszam+" pontot értél el.");
 
@@ -58,6 +61,7 @@ public class CrashScreenStage extends MyScreen {
 
                 };
 
+                //ha autóval ütközök, akkor az autó jelenjen meg
                 if(car) {
                     enemy = new OneSpriteStaticActor(Assets.manager.get(Assets.ENEMY_TEXTURE_CRASHED)) {
                         @Override
@@ -68,6 +72,7 @@ public class CrashScreenStage extends MyScreen {
                     };
                 }
 
+                //ha pedig korláttal ütközök, akkor meg a korlát jelenjen meg
                 if(!car){
                     enemy = new OneSpriteStaticActor(Assets.manager.get(Assets.BLOCK_CRASH_TEXTURE)) {
                         @Override
@@ -93,6 +98,7 @@ public class CrashScreenStage extends MyScreen {
                 addActor(mycar);
                 addActor(pontLabel);
 
+                //ha valamelyik korlátnak megyek, akkor ne jelenjen meg az ellenfél
                 if(myX<=169 || myX>=1070){
                     enemy.remove();
                 }

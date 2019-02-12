@@ -17,18 +17,18 @@ import hu.hdani1337.cargame.Screen.Pause.PauseScreenStage;
 
 public class OptionsScreenStage extends MyScreen {
 
-    public static byte controlType;
-    public static byte ifMuted;
-    public static OneSpriteStaticActor back;
+    public static byte controlType;//az irányírás típusa (döntés vagy érintés)
+    public static byte ifMuted;//le van e némítva, de nem értem mi a rákért nem boolean
+    public static OneSpriteStaticActor back;//visszagomb, hogy tudjak rá hivatkozni
 
-    OneSpriteStaticActor bg;
-    OneSpriteStaticActor controlF;
-    OneSpriteStaticActor controlT;
-    OneSpriteStaticActor mute;
-    OneSpriteStaticActor unmute;
+    OneSpriteStaticActor bg;//háttér
+    OneSpriteStaticActor controlF;//ikon, döntő irányítás
+    OneSpriteStaticActor controlT;//ikon, tapintós irányítás
+    OneSpriteStaticActor mute;//ikon, némítás
+    OneSpriteStaticActor unmute;//ikon, némítás feloldása
     MyStage options;
 
-    Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);
+    Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);//háttérzene, hogy kilehessen kapcsolni. lehet majd staticre kéne rakni, mert lusta vagyok mindig meghívni :)
 
     public OptionsScreenStage(CarGame game) {
         super(game);
@@ -71,7 +71,7 @@ public class OptionsScreenStage extends MyScreen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        ifMuted = 1;
+                        ifMuted = 1;//levan némítva
                         bgMusic.stop();
                     }
                 });
@@ -86,7 +86,7 @@ public class OptionsScreenStage extends MyScreen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        ifMuted = 0;
+                        ifMuted = 0;//nincs lenémítva
                     }
                 });
 
@@ -100,7 +100,7 @@ public class OptionsScreenStage extends MyScreen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        controlType = 0;
+                        controlType = 0;//döntős irányítás
                     }
                 });
 
@@ -114,7 +114,7 @@ public class OptionsScreenStage extends MyScreen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        controlType = 1;
+                        controlType = 1;//tapogatós irányítás, de ez sem boolean édes istenem XD
                     }
                 });
 

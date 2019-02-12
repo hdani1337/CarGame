@@ -38,14 +38,15 @@ public class GameScreenStage extends MyScreen {
 
 	long ido = 0;
 	boolean cheat = false;
+	//minek vannak ezek is itt xdxdxdxdxd
 
 	public static int nehezseg;
 	public static int nehezsegNov;
-	public static int pontszam;
-	public static float myCarDegree;
+	public static int pontszam;//magyarázzam?..
+	public static float myCarDegree;//az autóm szöge, mikor ütközik
 
-	public static float pause_mycarx, pause_mycary, pause_enemycarx, pause_enemycary, pause_korlatx, pause_korlaty;
-	public static int pause_speed;
+	public static float pause_mycarx, pause_mycary, pause_enemycarx, pause_enemycary, pause_korlatx, pause_korlaty; //temp változók, a megállítás után lényegesek
+	public static int pause_speed;//ez is
 
 
 	MyLabel pontLabel;
@@ -64,9 +65,9 @@ public class GameScreenStage extends MyScreen {
 			palyaFele = getViewport().getWorldWidth()/2;
 			speed = nehezseg;
 
-			pontLabel = new MyLabel(CarGame.getLabelStyle(),""+pontszam);
+			pontLabel = new MyLabel(CarGame.getLabelStyle(),""+pontszam);//pontszámláló
 
-			textbg = new OneSpriteStaticActor(Assets.manager.get(Assets.SZOVEG_HATTER)){
+			textbg = new OneSpriteStaticActor(Assets.manager.get(Assets.SZOVEG_HATTER)){//pontszámláló háttere
 				@Override
 				public void setDebug(boolean enabled) {
 					super.setDebug(false);
@@ -249,6 +250,9 @@ public class GameScreenStage extends MyScreen {
 						block.setY(2000);
 					}
 
+					//na ezen igazodj el xdxd
+					//amúgy azt figyeli, hogy melyik helyen van az autó, ahol lehetne csalni, és akkor oda rakja az akadályt
+
 					if (myCar.getX() > 560 && myCar.getX() < 670) {//középen
 						block.setY(block.getY() - (float)0.0001);
 						if(block.getY() > 500) {
@@ -332,7 +336,7 @@ public class GameScreenStage extends MyScreen {
 
 			pontLabel.setPosition(palyaFele - (pontLabel.getWidth()/2),720 - (pontLabel.getHeight()));
 			textbg.setPosition(palyaFele - (textbg.getWidth()/2),720 - (pontLabel.getHeight()));
-			textbg.setSize(50,50);
+			textbg.setSize(50,35);
 
 			addActor(background);
 			addActor(background2);
@@ -343,6 +347,7 @@ public class GameScreenStage extends MyScreen {
 			addActor(textbg);
 			addActor(pontLabel);
 
+			//ha tapintós irányítás, gombok
 			if(OptionsScreenStage.controlType == 1){
 				leftArrow.setSize(75,75);
 				rightArrow.setSize(75,75);
@@ -353,6 +358,8 @@ public class GameScreenStage extends MyScreen {
 				addActor(rightArrow);
 			}
 
+			//na ez fontos!
+			//ha megállítás után jövök vissza a játékba, akkor maradjanak a pozíciók és a nehézség
 			if(unpause == 1){
 				speed = pause_speed;
 				myCar.setX(pause_mycarx);
@@ -392,6 +399,7 @@ public class GameScreenStage extends MyScreen {
 			myCar.setX(myCar.getX() + 6);
 			myCar.setRotation(5);
 		}
+		//gépen irányítás
 
 		stage.act(delta);
 		stage.draw();

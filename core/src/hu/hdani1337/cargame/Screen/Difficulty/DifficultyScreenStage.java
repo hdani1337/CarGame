@@ -16,7 +16,7 @@ import hu.hdani1337.cargame.Screen.Game.GameScreenStage;
 import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 
 public class DifficultyScreenStage extends MyScreen {
-    int nehezseg;
+    int nehezseg;//ez is minek van itt ha nincs használva? xdddd de nem merem kitörölni nemám gixer lesz
 
     Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);
 
@@ -24,6 +24,8 @@ public class DifficultyScreenStage extends MyScreen {
     OneSpriteStaticActor easy;
     OneSpriteStaticActor med;
     OneSpriteStaticActor hard;
+
+    //ezt is érteni fogom, csak a GameScreen-ben változtatják a nehézséget
 
     public DifficultyScreenStage(CarGame game) {
         super(game);
