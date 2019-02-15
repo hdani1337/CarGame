@@ -11,6 +11,7 @@ import hu.hdani1337.cargame.MyBaseClasses.Assets;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.hdani1337.cargame.Screen.Choosing.ChoosingScreenStage;
 import hu.hdani1337.cargame.Screen.Game.GameScreenStage;
 import hu.hdani1337.cargame.Screen.Home.HomeScreenStage;
 import hu.hdani1337.cargame.Screen.Pause.PauseScreenStage;
@@ -24,6 +25,7 @@ public class OptionsScreenStage extends MyScreen {
     OneSpriteStaticActor bg;//háttér
     OneSpriteStaticActor controlF;//ikon, döntő irányítás
     OneSpriteStaticActor controlT;//ikon, tapintós irányítás
+    OneSpriteStaticActor carChoose;//ikon, autóválasztás
     OneSpriteStaticActor mute;//ikon, némítás
     OneSpriteStaticActor unmute;//ikon, némítás feloldása
     MyStage options;
@@ -118,6 +120,21 @@ public class OptionsScreenStage extends MyScreen {
                     }
                 });
 
+                carChoose = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR_CHOOSE)){
+                    @Override
+                    public void setDebug(boolean enabled) {
+                        super.setDebug(false);
+                    }
+                };
+
+                carChoose.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        game.setScreen(new ChoosingScreenStage(game));
+                    }
+                });
+
                 back.setPosition(865, 100);
                 back.setSize(200,200);
 
@@ -133,12 +150,16 @@ public class OptionsScreenStage extends MyScreen {
                 controlT.setSize(200,200);
                 controlT.setPosition(430,370);
 
+                carChoose.setSize(200,200);
+                carChoose.setPosition(640,370);
+
                 addActor(bg);
                 addActor(back);
                 addActor(mute);
                 addActor(unmute);
                 addActor(controlF);
                 addActor(controlT);
+                addActor(carChoose);
             }
         };
     }

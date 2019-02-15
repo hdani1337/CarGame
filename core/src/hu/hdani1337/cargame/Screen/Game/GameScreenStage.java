@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,6 +19,7 @@ import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyScreen;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.hdani1337.cargame.MyBaseClasses.UI.MyLabel;
+import hu.hdani1337.cargame.Screen.Choosing.ChoosingScreenStage;
 import hu.hdani1337.cargame.Screen.Crash.CrashScreenStage;
 import hu.hdani1337.cargame.Screen.Options.OptionsScreenStage;
 import hu.hdani1337.cargame.Screen.Pause.PauseScreenStage;
@@ -59,6 +61,7 @@ public class GameScreenStage extends MyScreen {
 		int sav;
 		int speed;
 		float palyaFele;
+		Texture car_texture;
 
 		@Override
 		public void init() {
@@ -101,7 +104,19 @@ public class GameScreenStage extends MyScreen {
 				}
 			});
 
-			myCar = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR_TEXTURE)){
+			if(ChoosingScreenStage.carID == 0){
+				car_texture = Assets.manager.get(Assets.CAR1_TEXTURE);
+			}
+
+			if(ChoosingScreenStage.carID == 1){
+				car_texture = Assets.manager.get(Assets.CAR3_TEXTURE);
+			}
+
+			if(ChoosingScreenStage.carID == -1){
+				car_texture = Assets.manager.get(Assets.CAR2_TEXTURE);
+			}
+
+			myCar = new OneSpriteStaticActor(car_texture){
 				@Override
 				public void setDebug(boolean enabled) {
 					super.setDebug(false);
@@ -180,7 +195,6 @@ public class GameScreenStage extends MyScreen {
 							pontLabel.setX(pontLabel.getX() - 7.5f);
 						}
 						speed += nehezsegNov;//Sebességnövelés
-						System.out.println(pontszam);
 					}
 
 					if(overlaps(myCar,enemyCar) == true){//Ütközés az ellenféllel
@@ -255,7 +269,7 @@ public class GameScreenStage extends MyScreen {
 
 					if (myCar.getX() > 560 && myCar.getX() < 670) {//középen
 						block.setY(block.getY() - (float)0.0001);
-						if(block.getY() > 500) {
+						if(block.getY() > 600) {
 							block.setX(palyaFele - (block.getWidth()) / 2);
 						}
 						if (block.getY() <= myCar.getY() + myCar.getHeight()) {
@@ -269,7 +283,7 @@ public class GameScreenStage extends MyScreen {
 
 					if (myCar.getX() > 360 && myCar.getX() < 440) {//1-2 sáv között
 						block.setY(block.getY() - (float)0.0001);
-						if(block.getY() > 500) {
+						if(block.getY() > 600) {
 							block.setX((425 - (block.getWidth() / 2)));
 						}
 						if (block.getY() <= myCar.getY() + myCar.getHeight()) {
@@ -283,7 +297,7 @@ public class GameScreenStage extends MyScreen {
 
 					if (myCar.getX() > 800 && myCar.getX() < 870) {//3-4 sáv között
 						block.setY(block.getY() - (float)0.0001);
-						if(block.getY() > 500) {//ha már kisebb az Y 500-nál, akkor már ne váltson sávot, mert akkor játszhatatlan lenne
+						if(block.getY() > 600) {//ha már kisebb az Y 600-nál, akkor már ne váltson sávot, mert akkor játszhatatlan lenne
 							block.setX((863 - (block.getWidth() / 2)));
 						}
 						if (block.getY() <= myCar.getY() + myCar.getHeight()) {//ütközés, mert valamiért az overlaps nem működik itt, de megoldjuk okosba'
@@ -314,7 +328,6 @@ public class GameScreenStage extends MyScreen {
 				}
 			};//JOBBRA GOMB
 
-			myCar.setSize(50,120);
 			myCar.addBaseCollisionRectangleShape();
 			myCar.setPosition(615,5);
 

@@ -30,9 +30,13 @@ public class Assets {
     }
     //szöveghez kell - end
 
-    public static final AssetDescriptor<Texture> CAR_TEXTURE = new AssetDescriptor<Texture>("actors/car.png", Texture.class); //én autóm
+    public static final AssetDescriptor<Texture> CAR1_TEXTURE = new AssetDescriptor<Texture>("actors/cars/car1/car.png", Texture.class); //én autóm
+    public static final AssetDescriptor<Texture> CAR2_TEXTURE = new AssetDescriptor<Texture>("actors/cars/car2/car.png", Texture.class); //én autóm
+    public static final AssetDescriptor<Texture> CAR3_TEXTURE = new AssetDescriptor<Texture>("actors/cars/car3/car.png", Texture.class); //én autóm
     public static final AssetDescriptor<Texture> ENEMY_TEXTURE = new AssetDescriptor<Texture>("actors/enemyCar.png", Texture.class); //ellenfél autó
-    public static final AssetDescriptor<Texture> CAR_TEXTURE_CRASHED = new AssetDescriptor<Texture>("actors/carCrash.png", Texture.class); //én autóm ütközve
+    public static final AssetDescriptor<Texture> CAR1_TEXTURE_CRASHED = new AssetDescriptor<Texture>("actors/cars/car1/carCrash.png", Texture.class); //én autóm ütközve
+    public static final AssetDescriptor<Texture> CAR2_TEXTURE_CRASHED = new AssetDescriptor<Texture>("actors/cars/car2/carCrash.png", Texture.class); //én autóm ütközve
+    public static final AssetDescriptor<Texture> CAR3_TEXTURE_CRASHED = new AssetDescriptor<Texture>("actors/cars/car3/carCrash.png", Texture.class); //én autóm ütközve
     public static final AssetDescriptor<Texture> ENEMY_TEXTURE_CRASHED = new AssetDescriptor<Texture>("actors/enemyCarCrash.png", Texture.class); //ellenfél autó ütközve
     public static final AssetDescriptor<Texture> HATTER_TEXTURE = new AssetDescriptor<Texture>("bgs/bg.png", Texture.class); //háttér
     public static final AssetDescriptor<Texture> HATTER_TEXTURE_LOST = new AssetDescriptor<Texture>("bgs/bgLost.png", Texture.class); //háttér vesztés esetén
@@ -51,6 +55,7 @@ public class Assets {
     public static final AssetDescriptor<Texture> SETTINGS_TEXTURE = new AssetDescriptor<Texture>("actors/btns/settings.png", Texture.class); //beállítások gomb
     public static final AssetDescriptor<Texture> BACK_TEXTURE = new AssetDescriptor<Texture>("actors/btns/back.png", Texture.class); //visszalépés gomb
     public static final AssetDescriptor<Texture> INFO_TEXTURE = new AssetDescriptor<Texture>("actors/btns/info.png", Texture.class); //információ gomb
+    public static final AssetDescriptor<Texture> CAR_CHOOSE = new AssetDescriptor<Texture>("actors/btns/car.png", Texture.class); //információ gomb
     public static final AssetDescriptor<Texture> CONTROLF_TEXTURE = new AssetDescriptor<Texture>("actors/btns/control_flip.png", Texture.class); //döntés irányító gomb
     public static final AssetDescriptor<Texture> CONTROLT_TEXTURE = new AssetDescriptor<Texture>("actors/btns/control_touch.png", Texture.class); //tapintás irányító gomb
     public static final AssetDescriptor<Texture> MUTE_TEXTURE = new AssetDescriptor<Texture>("actors/btns/mute.png", Texture.class); //némító gomb
@@ -70,10 +75,14 @@ public class Assets {
         manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
 
         //textúrák meghívása
-        manager.load(CAR_TEXTURE);
+        manager.load(CAR1_TEXTURE);
+        manager.load(CAR2_TEXTURE);
+        manager.load(CAR3_TEXTURE);
         manager.load(ENEMY_TEXTURE);
         manager.load(HATTER_TEXTURE);
-        manager.load(CAR_TEXTURE_CRASHED);
+        manager.load(CAR1_TEXTURE_CRASHED);
+        manager.load(CAR2_TEXTURE_CRASHED);
+        manager.load(CAR3_TEXTURE_CRASHED);
         manager.load(ENEMY_TEXTURE_CRASHED);
         manager.load(HATTER_TEXTURE_LOST);
         manager.load(SZOVEG_HATTER);
@@ -91,6 +100,7 @@ public class Assets {
         manager.load(SETTINGS_TEXTURE);
         manager.load(BACK_TEXTURE);
         manager.load(INFO_TEXTURE);
+        manager.load(CAR_CHOOSE);
         manager.load(CONTROLT_TEXTURE);
         manager.load(CONTROLF_TEXTURE);
         manager.load(MUTE_TEXTURE);

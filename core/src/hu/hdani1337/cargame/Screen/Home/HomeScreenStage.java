@@ -126,7 +126,7 @@ public class HomeScreenStage extends MyScreen {
                 }
             };
 
-            demoCar = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR_TEXTURE)) {
+            demoCar = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR1_TEXTURE)) {
                 @Override
                 public void setDebug(boolean enabled) {
                     super.setDebug(false);

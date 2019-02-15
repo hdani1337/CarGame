@@ -2,6 +2,7 @@ package hu.hdani1337.cargame.Screen.Crash;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
@@ -11,6 +12,7 @@ import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.hdani1337.cargame.CarGame;
 import hu.hdani1337.cargame.MyBaseClasses.UI.MyLabel;
+import hu.hdani1337.cargame.Screen.Choosing.ChoosingScreenStage;
 import hu.hdani1337.cargame.Screen.Game.GameScreenStage;
 
 public class CrashScreenStage extends MyScreen {
@@ -27,6 +29,7 @@ public class CrashScreenStage extends MyScreen {
     OneSpriteStaticActor enemy;
     MyStage crash;
     MyLabel pontLabel;
+    Texture texture;
 
     public CrashScreenStage(CarGame game, float myXT, float eXT, float eYT, final boolean car) {
         super(game);
@@ -53,7 +56,19 @@ public class CrashScreenStage extends MyScreen {
                     }
                 };
 
-                mycar = new OneSpriteStaticActor(Assets.manager.get(Assets.CAR_TEXTURE_CRASHED)){
+                if(ChoosingScreenStage.carID == 0){
+                    texture = Assets.manager.get(Assets.CAR1_TEXTURE_CRASHED);
+                }
+
+                if(ChoosingScreenStage.carID == 1){
+                    texture = Assets.manager.get(Assets.CAR3_TEXTURE_CRASHED);
+                }
+
+                if(ChoosingScreenStage.carID == -1){
+                    texture = Assets.manager.get(Assets.CAR2_TEXTURE_CRASHED);
+                }
+
+                mycar = new OneSpriteStaticActor(texture){
                     @Override
                     public void setDebug(boolean enabled) {
                         super.setDebug(false);
