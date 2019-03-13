@@ -1,4 +1,4 @@
-package hu.hdani1337.cargame.MyBaseClasses;
+package hu.hdani1337.cargame.Global;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;

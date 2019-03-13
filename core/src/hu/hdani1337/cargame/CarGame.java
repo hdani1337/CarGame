@@ -4,10 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import hu.hdani1337.cargame.MyBaseClasses.Assets;
+import hu.hdani1337.cargame.Global.Assets;
 import hu.hdani1337.cargame.MyBaseClasses.Game.MyGame;
-
-import hu.hdani1337.cargame.Screen.Home.HomeScreenStage;
+import hu.hdani1337.cargame.Screen.HomeScreen;
 
 public class CarGame extends MyGame {
     @Override
@@ -18,7 +17,7 @@ public class CarGame extends MyGame {
         while (!Assets.manager.update()){
             System.out.print(".");
         }
-        setScreen(new HomeScreenStage(this));//miután betöltött, meghívom a kezdőképernyőt
+        setScreen(new HomeScreen(this));//miután betöltött, meghívom a kezdőképernyőt
     }
 
     public static Label.LabelStyle getLabelStyle() {//label stílusa, nagynehezen sikerült
