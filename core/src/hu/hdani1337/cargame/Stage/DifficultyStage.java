@@ -35,7 +35,7 @@ public class DifficultyStage extends MyStage {
                 super.clicked(event, x, y);
                 speed = 350;
                 speedPlus = 12;
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game,0,0,0,0,0,0,0,false));
             }
         });
 
@@ -45,7 +45,7 @@ public class DifficultyStage extends MyStage {
                 super.clicked(event, x, y);
                 speed = 400;
                 speedPlus = 15;
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game,0,0,0,0,0,0,0,false));
             }
         });
 
@@ -55,7 +55,7 @@ public class DifficultyStage extends MyStage {
                 super.clicked(event, x, y);
                 speed = 500;
                 speedPlus = 18;
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game,0,0,0,0,0,0,0,false));
             }
         });
 

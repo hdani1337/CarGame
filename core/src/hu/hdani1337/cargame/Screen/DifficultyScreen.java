@@ -12,7 +12,7 @@ public class DifficultyScreen extends MyScreen {
 
     public DifficultyScreen(CarGame game) {
         super(game);
-        difficultyStage = new DifficultyStage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()),spriteBatch,game);
+        difficultyStage = new DifficultyStage(new FitViewport(1280,720),spriteBatch,game);
         Gdx.input.setInputProcessor(difficultyStage);
     }
 

@@ -10,9 +10,9 @@ import hu.hdani1337.cargame.Stage.CrashStage;
 public class CrashScreen extends MyScreen {
     CrashStage crashStage;
 
-    public CrashScreen(CarGame game, float myXT, float eXT, float eYT, final boolean car) {
+    public CrashScreen(CarGame game, float myXT, float myDegree,float eXT, float eYT, final boolean car) {
         super(game);
-        crashStage = new CrashStage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()),spriteBatch,game, myXT, eXT, eYT, car);
+        crashStage = new CrashStage(new FitViewport(1280,720),spriteBatch,game, myXT, myDegree, eXT, eYT, car);
         Gdx.input.setInputProcessor(crashStage);
     }
 

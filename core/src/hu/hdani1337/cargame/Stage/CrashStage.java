@@ -15,6 +15,7 @@ import hu.hdani1337.cargame.CarGame;
 import hu.hdani1337.cargame.Global.Assets;
 import hu.hdani1337.cargame.MyBaseClasses.Scene2D.MyStage;
 import hu.hdani1337.cargame.MyBaseClasses.UI.MyLabel;
+import hu.hdani1337.cargame.MyBaseClasses.UI.TextBackground;
 import hu.hdani1337.cargame.Screen.GameScreen;
 
 public class CrashStage extends MyStage {
@@ -23,31 +24,37 @@ public class CrashStage extends MyStage {
     EnemyCar enemyCar;
     Block block;
     MyLabel pontszam;
+    TextBackground textBackground;
     Play play;
 
-    public CrashStage(Viewport viewport, Batch batch, final CarGame game, float myXT, float eXT, float eYT, final boolean crashType) {
+    public CrashStage(Viewport viewport, Batch batch, final CarGame game, float myXT, float myDegree ,float eXT, float eYT, final boolean crashType) {
         super(viewport, batch, game);
-        pontszam = new MyLabel(CarGame.getLabelStyle(),"x pontot értél el");
+        pontszam = new MyLabel(CarGame.getLabelStyle(),GameStage.pontszam+" pontot értél el");
         background = new Background(false);
         play = new Play();
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                game.setScreen(new GameScreen(game));
+                GameStage.pontszam = 0;
+                game.setScreen(new GameScreen(game,0,0,0,0,0,0,0,false));
             }
         });
         switch (ChoosingStage.carID){
-            case 0: car = new Car(Assets.manager.get(Assets.CAR1_TEXTURE_CRASHED));
-            case 1: car = new Car(Assets.manager.get(Assets.CAR3_TEXTURE_CRASHED));
-            case -1: car = new Car(Assets.manager.get(Assets.CAR2_TEXTURE_CRASHED));
+            case 0: car = new Car(Assets.manager.get(Assets.CAR1_TEXTURE_CRASHED),false);
+            case 1: car = new Car(Assets.manager.get(Assets.CAR3_TEXTURE_CRASHED),false);
+            case -1: car = new Car(Assets.manager.get(Assets.CAR2_TEXTURE_CRASHED),false);
         }
 
-        pontszam.setPosition((viewport.getWorldWidth()/2) - (pontszam.getWidth()/2),282.5f);
-        play.setPosition(viewport.getWorldWidth()/2-play.getWidth()/2,100);
+        play.setPosition(viewport.getWorldWidth()/2-play.getWidth()/2,viewport.getWorldHeight()/2-play.getWidth()/2+35);
+        pontszam.setPosition((viewport.getWorldWidth()/2) - (pontszam.getWidth()/2),play.getY()+play.getHeight()+15);
+        textBackground = new TextBackground(pontszam.getWidth()+10,pontszam.getHeight()+4);
+        textBackground.setPosition(pontszam.getX() - 5,pontszam.getY()-2);
         car.setPosition(myXT,5);
+        car.setRotation(myDegree);
 
         addActor(background);
+        addActor(textBackground);
         addActor(pontszam);
         addActor(car);
         addActor(play);
@@ -58,7 +65,7 @@ public class CrashStage extends MyStage {
             addActor(enemyCar);
         }
         else{
-            block = new Block(Assets.manager.get(Assets.BLOCK_CRASH_TEXTURE));
+            block = new Block(Assets.manager.get(Assets.BLOCK_CRASH_TEXTURE),false);
             block.setPosition(eXT,eYT);
             addActor(block);
         }

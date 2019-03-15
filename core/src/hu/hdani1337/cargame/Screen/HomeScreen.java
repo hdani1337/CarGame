@@ -12,7 +12,7 @@ public class HomeScreen extends MyScreen {
 
     public HomeScreen(CarGame game) {
         super(game);
-        homeStage = new HomeStage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()),spriteBatch,game);
+        homeStage = new HomeStage(new FitViewport(1280,720),spriteBatch,game);
         Gdx.input.setInputProcessor(homeStage);
     }
 

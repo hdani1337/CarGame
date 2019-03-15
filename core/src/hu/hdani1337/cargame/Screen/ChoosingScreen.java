@@ -12,7 +12,7 @@ public class ChoosingScreen extends MyScreen {
 
     public ChoosingScreen(CarGame game) {
         super(game);
-        choosingStage = new ChoosingStage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()),spriteBatch,game);
+        choosingStage = new ChoosingStage(new FitViewport(1280,720),spriteBatch,game);
         Gdx.input.setInputProcessor(choosingStage);
     }
 

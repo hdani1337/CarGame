@@ -12,7 +12,7 @@ public class OptionsScreen extends MyScreen {
 
     public OptionsScreen(CarGame game) {
         super(game);
-        optionsStage = new OptionsStage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()),spriteBatch,game);
+        optionsStage = new OptionsStage(new FitViewport(1280,720),spriteBatch,game);
         Gdx.input.setInputProcessor(optionsStage);
     }
 
@@ -24,6 +24,9 @@ public class OptionsScreen extends MyScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
+        optionsStage.act(delta);
+        if(delta >= 0){
+            optionsStage.draw();
+        }
     }
 }

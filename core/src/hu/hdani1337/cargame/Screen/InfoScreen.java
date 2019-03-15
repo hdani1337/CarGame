@@ -12,7 +12,7 @@ public class InfoScreen extends MyScreen {
 
     public InfoScreen(CarGame game) {
         super(game);
-        infoStage = new InfoStage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()),spriteBatch,game);
+        infoStage = new InfoStage(new FitViewport(1280,720),spriteBatch,game);
         Gdx.input.setInputProcessor(infoStage);
     }
 

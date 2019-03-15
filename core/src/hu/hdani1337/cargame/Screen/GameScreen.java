@@ -10,9 +10,9 @@ import hu.hdani1337.cargame.Stage.GameStage;
 public class GameScreen extends MyScreen {
     GameStage gameStage;
 
-    public GameScreen(CarGame game) {
+    public GameScreen(CarGame game, final float myCarX, final float myCarY, final float enemyCarX, final float enemyCarY, final float korlatx, final float korlaty, final int speed, final boolean fromPause) {
         super(game);
-        gameStage = new GameStage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()),spriteBatch,game);
+        gameStage = new GameStage(new FitViewport(1280,720),spriteBatch,game,myCarX,myCarY,enemyCarX,enemyCarY,korlatx,korlaty,speed,fromPause);
         Gdx.input.setInputProcessor(gameStage);
     }
 

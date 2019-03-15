@@ -11,7 +11,7 @@ public class PauseScreen extends MyScreen {
     PauseStage pauseStage;
     public PauseScreen(CarGame game, final float myCarX, final float myCarY, final float enemyCarX, final float enemyCarY, final float korlatx, final float korlaty, final int speed) {
         super(game);
-        pauseStage = new PauseStage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()),spriteBatch,game);
+        pauseStage = new PauseStage(new FitViewport(1280,720),spriteBatch,game,myCarX,myCarY,enemyCarX,enemyCarY,korlatx,korlaty,speed);
         Gdx.input.setInputProcessor(pauseStage);
     }
 

@@ -20,7 +20,7 @@ import hu.hdani1337.cargame.Screen.InfoScreen;
 import hu.hdani1337.cargame.Screen.OptionsScreen;
 
 public class HomeStage extends MyStage {
-    Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);
+    public static Music bgMusic = Assets.manager.get(Assets.HOME_ZENE);
     Play play;
     Exit exit;
     Info info;
@@ -34,6 +34,11 @@ public class HomeStage extends MyStage {
         exit = new Exit();
         info = new Info();
         settings = new Settings();
+
+        if(OptionsStage.ifMuted == 0) {
+            bgMusic.setVolume(0.5f);
+            bgMusic.play();
+        }
 
         play.addListener(new ClickListener(){
             @Override
